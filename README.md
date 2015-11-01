@@ -8,6 +8,5 @@ How it works:
 
 How to use:
 * download
-* add to any of your pages: 
-** <script src="spreadCart.js"></script> and <link rel="stylesheet" href="spreadCart.css"/>
+* add to your header spreadCart.js and spreadCart.css as seen in the index.html
 * configure the DIV that should hold the minibasket in spreadCart.js
