@@ -29,7 +29,6 @@ jQuery( document ).ready(function() {
     }
 
     function showMiniBasket(){
-        console.log("yo")
         $( "#miniBasketDetails" ).toggle( )
     }
 
