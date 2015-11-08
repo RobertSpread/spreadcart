@@ -1,13 +1,17 @@
-#miniBasket{
-
-}
-
-
 #checkoutLink{
     background-color: #e2122f;
     border: 1px solid #96122c;
     box-shadow: 0 2px 0 0 #96122c;
     color: #f6f6f6;
+}
+#miniBasketBackground{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: #22262d;
+    opacity: 0.5;
 }
 
 #totalQuantity{
@@ -24,13 +28,21 @@
     color: white;
 }
 
+.miniBasketLabel{
+    box-sizing: border-box;
+    display: inline-block;
+    width: 50%;
+    float:left;
+
+}
+
+.miniBasketPrice{text-align: right; padding-right: 20px}
 #miniBasketDetails{
     padding: 20px;
     z-index: 100000;
     margin-top: 1px;
-    max-height: 30em;
     max-width: 80%;
-    min-width: 50em;
+    min-width: 30em;
     position: absolute;
 width: 50%;
     left: 25%;
@@ -40,7 +52,9 @@ width: 50%;
     overflow-y: auto;
     background-color: white;
     box-shadow: #eeeeee 2px 2px 2px ;
+    overflow: hidden;
 }
+#miniBasketContent{max-height: 30em; overflow-y: auto;overflow-x: hidden}
 
 .viewBasketDetails{
 background-color: #f6f6f6;
@@ -60,15 +74,19 @@ color: #22262d;
 }
 
 .basketItemInformation{
+    vertical-align: top;
+    padding: 20px;
     white-space: normal;
-    width: 10em;
     display: inline-block;
+    width: 10em;
 }
 
+#miniBasketOptions{padding: 20px; border-top: dashed 2px #eeeeee}
+.basketItemPrice{
+    padding: 20px;
+    float: right;
+}
 #miniBasketFooter{
     border-top: 1px solid #eeeeee;
     padding: 20px;
-}
-.basketItemInformation{
-    width: 55%;
 }
