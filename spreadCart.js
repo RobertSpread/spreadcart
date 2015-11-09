@@ -55,8 +55,8 @@ function buildCustomMiniBasket(){
     basketData=getBasketData();
     insertMiniBasketCaller();
     updateMiniBasketQuantity()
-    jQuery("body").append('<div id="miniBasketBackground" style="display: none"></div>')
-    jQuery('body').append('<div id="miniBasketDetails" style="display:none"></div>');
+    jQuery("body").prepend('<div id="miniBasketBackground" style="display: none"></div>')
+    jQuery('body').prepend('<div id="miniBasketDetails" style="display:none"></div>');
     jQuery('#miniBasketDetails').append('<div id="miniBasketContent"></div>');
     jQuery('#miniBasketDetails').append('<div id="miniBasketFooter"></div>');
 
