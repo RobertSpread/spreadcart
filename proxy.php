@@ -1,6 +1,6 @@
 <?php
 $basketId=$_POST["basketId"];
-$tld=$_POST["tld"];
+$tld=$_POST["platformTLD"];
 $basketItemId=$_POST["basketItemId"];
 $basketItemsURL = "api.spreadshirt.".$tld."/api/v1/baskets/".$basketId."/items/".$basketItemId;
 $header = array();
