@@ -78,7 +78,7 @@ function buildCustomMiniBasket(){
     jQuery('#miniBasketFooter').append(' <div class="row topLine total"> <div class="miniBasketLabel">'+translations.total+'</div> <div class="miniBasketLabel miniBasketPrice" id="price-total">'+fixPrice(basketData.priceTotal)+'</div> </div><div class="Price" itemscope="null" itemtype="http://schema.org/Offer" itemprop="offers"><div class="Item vat customLink">inkl. MwSt. EU</div> <div class="Item shipping customLink">inkl. Versand</div><meta content="http://schema.org/InStock" itemprop="availability"></div></div>')
     jQuery('#miniBasketFooter').append('<div id="miniBasketOptions"></div>');
         jQuery('#miniBasketOptions').append('<button class="miniBasketButton" id="continueShoppingLink" style="position: absolute;left:20px">'+translations.continueShopping+'</button>');
-        jQuery('#miniBasketOptions').append('<button class="miniBasketButton" id="checkoutLink" style="position: absolute;right:20px">'+translations.goToChekcout+'</button>');
+        jQuery('#miniBasketOptions').append('<button class="miniBasketButton" id="checkoutLink" style="position: absolute;right:20px">'+translations.goToCheckout+'</button>');
         jQuery('#checkoutLink').on("click",function(){window.location="https://checkout.spreadshirt."+tld+"/?basketId="+basketData.apiBasketId+"&shopId="+shopID+"&emptyBasketUrl="+returnURL});
         jQuery('#continueShoppingLink').on("click",function(){showMiniBasket()});
 
@@ -95,16 +95,14 @@ function deleteItem(id){
     jQuery.ajax({
         url:'proxy.php',
         data:{"basketItemId":id,
-            "basketId":basketData.apiBasketId },
+            "basketId":basketData.apiBasketId,
+        "platformTLD":tld},
         type:'POST'
     });
     for (var i=0;i<basketData.orderListItems.length;i++) {
         if (basketData.orderListItems[i].apiId===id) {
-            basketData.priceTotal=basketData.priceTotal-basketData.orderListItems[i].price;
-            basketData.priceItems=basketData.priceItems-basketData.orderListItems[i].price;
-console.log(typeof basketData.priceItems)
-            console.log(typeof basketData.orderListItems[i].price)
-
+            basketData.priceTotal=basketData.priceTotal-(basketData.orderListItems[i].price*basketData.orderListItems[i].quantity);
+            basketData.priceItems=basketData.priceItems-(basketData.orderListItems[i].price*basketData.orderListItems[i].quantity);
             basketData.orderListItems.splice(i,1)
             jQuery('#basketItem-'+i).remove()
 

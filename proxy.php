@@ -1,7 +1,8 @@
 <?php
 $basketId=$_POST["basketId"];
+$tld=$_POST["tld"];
 $basketItemId=$_POST["basketItemId"];
-$basketItemsURL = "api.spreadshirt.de/api/v1/baskets/".$basketId."/items/".$basketItemId;
+$basketItemsURL = "api.spreadshirt.".$tld."/api/v1/baskets/".$basketId."/items/".$basketItemId;
 $header = array();
 $header[] = createSprdAuthHeader("DELETE", $basketItemsURL);
 $header[] = "Content-Type: application/xml";
@@ -21,7 +22,6 @@ die();
 function createSprdAuthHeader($method, $url)
 {
     $apiKey = "4a12747f-0963-4cc7-9bb3-1d2e0ee32eae";
-    $secret = "da914243-20df-4bcd-a2ef-91c60b7e1a97";
     $time = time()*1000;
     $data = "$method $url $time";
     $sig = sha1("$data $secret");
