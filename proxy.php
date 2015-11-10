@@ -21,8 +21,8 @@ die();
 
 function createSprdAuthHeader($method, $url)
 {
-    $apiKey = "4a12747f-0963-4cc7-9bb3-1d2e0ee32eae";
-    $secret = "da914243-20df-4bcd-a2ef-91c60b7e1a97";
+    $apiKey = "add your api key here";
+    $secret = "add your api secret here";
     $time = time()*1000;
     $data = "$method $url $time";
     $sig = sha1("$data $secret");
