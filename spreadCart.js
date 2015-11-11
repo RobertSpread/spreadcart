@@ -115,7 +115,7 @@ function fixPrice(value){
 //function to update the minibasket after removing basket items
 function updateBasketContent(){
     basketData=getBasketData();
-    jQuery('#miniBasketContent').html("");
+    jQuery('#miniBasketContent').html(" ");
     jQuery.each( basketData.orderListItems, function(index ){
         jQuery('#miniBasketContent').append('<div class="basketItem" id="basketItem-'+index+'"></div>');
         jQuery('#basketItem-'+index).append('<img style="width:8em" src="'+mediaURL+basketData.orderListItems[index].productId+'"/>');
