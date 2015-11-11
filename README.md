@@ -10,3 +10,4 @@ How to use:
 * download
 * add to your header spreadCart.js and spreadCart.css as in the example (index.html)
 * configure the DIV that should hold the minibasket in spreadCart.js
+* enter your shop id, api key and api secret to the spreadcart.js and the proxy.php file
