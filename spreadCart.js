@@ -4,7 +4,7 @@ shopID="0";//your shop id
 mediaURL="//image.spreadshirtmedia.net/image-server/v1/products/";//base URl the images will be pulled from. Needed to display product images in the basket
 returnURL= encodeURIComponent(window.location.href);// location from where the customer enters checkout
 translations={};
-translations.currencyIndicator="&euro;";//add the shop currency here
+translations.currencyIndicator=" &euro;";//add the shop currency here
 translations.continueShopping="Weiter Einkaufen";// link to close the basket aka. continue Shopping
 translations.goToCheckout="Zum Checkout";//go to basket
 translations.total="Gesamtbetrag:";//total of basket
@@ -12,16 +12,21 @@ translations.shippingTotal="Versandkosten:";//total of shipping
 translations.itemsTotal="Zwischensumme:";//total price for items
 translations.shippingInformation="inkl. Versand";//shipping information
 translations.vatInformation="inkl. MwSt. EU";//cat information
-
+translations.deleteItem="Aus Warenkorb entfernen";
+translations.color="Farbe: ";
+translations.size="Gr&ouml;&szlig;e: ";
+translations.quantity="Anzahl: ";
 //function to initiate basket when the document is ready
 jQuery(document).ready(function(){
     buildCustomMiniBasket();
     });
 
+
+
 //button to display minibasket is appended to defined basket container, binding function to display basket to button
 function insertMiniBasketCaller(){
     jQuery('#miniBasket').remove();
-    jQuery('#'+basketContainer).append('<div id="miniBasket" class="miniBasketButton  viewBasketDetails fa fa-shopping-cart"><div id="totalQuantity"></div></div>');
+    jQuery('#'+basketContainer).append('<div id="miniBasket" class="miniBasketButton  fa fa-shopping-cart fa-2x"><div id="totalQuantity"></div></div>');
     jQuery('#miniBasket').on("click",function(){showMiniBasket()});
     }
 
@@ -67,7 +72,7 @@ function buildCustomMiniBasket(){
     jQuery('#miniBasketDetails').append('<div id="miniBasketFooter"></div>');
     jQuery('#miniBasketFooter').append('<div class="row"> <div class="miniBasketLabel">'+translations.itemsTotal+'</div> <div class="miniBasketLabel miniBasketPrice" id="priceItems"></div> </div>');
     jQuery('#miniBasketFooter').append('<div class="row"><div class="miniBasketLabel">'+translations.shippingTotal+'</div> <div class="miniBasketLabel miniBasketPrice" id="priceShipping"></div> </div>');
-    jQuery('#miniBasketFooter').append(' <div class="row topLine total"> <div class="miniBasketLabel">'+translations.total+'</div> <div class="miniBasketLabel miniBasketPrice" id="priceTotal"></div> </div><div class="Price" itemscope="null" itemtype="http://schema.org/Offer" itemprop="offers"><div class="Item vat customLink">'+translations.vatInformation+'</div> <div class="Item shipping customLink">'+translations.shippingInformation+'</div><meta content="http://schema.org/InStock" itemprop="availability"></div></div>');
+    jQuery('#miniBasketFooter').append(' <div class="row topLine total"> <div class="miniBasketLabel">'+translations.total+'</div> <div class="miniBasketLabel miniBasketPrice" id="priceTotal"></div> </div><div class="Price><div class="" style="font-size: 60%">'+translations.vatInformation+'</div> <div class="" style="font-size: 60%">'+translations.shippingInformation+'</div><meta content="http://schema.org/InStock" itemprop="availability"></div></div>');
     jQuery('#miniBasketFooter').append('<div id="miniBasketOptions"></div>');
     jQuery('#miniBasketOptions').append('<button class="miniBasketButton" id="continueShoppingLink" style="position: absolute;left:20px">'+translations.continueShopping+'</button>');
     jQuery('#miniBasketOptions').append('<button class="miniBasketButton" id="checkoutLink" style="position: absolute;right:20px">'+translations.goToCheckout+'</button>');
@@ -118,13 +123,14 @@ function updateBasketContent(){
     jQuery('#miniBasketContent').html(" ");
     jQuery.each( basketData.orderListItems, function(index ){
         jQuery('#miniBasketContent').append('<div class="basketItem" id="basketItem-'+index+'"></div>');
-        jQuery('#basketItem-'+index).append('<img style="width:8em" src="'+mediaURL+basketData.orderListItems[index].productId+'"/>');
+        jQuery('#basketItem-'+index).append('<img style="width:30%" src="'+mediaURL+basketData.orderListItems[index].productId+'"/>');
         jQuery('#basketItem-'+index).append('<div class="basketItemInformation" id="basketItemInformation-'+index+'"></div>');
         jQuery('#basketItemInformation-'+index).append('<div class="basketItemName">'+basketData.orderListItems[index].ptName+'</div>');
-        jQuery('#basketItemInformation-'+index).append('<div class="basketItemQuantity">Quantity:'+basketData.orderListItems[index].quantity+'</div>');
-        jQuery('#basketItemInformation-'+index).append('<div class="basketItemSize">Size:'+basketData.orderListItems[index].sizeName+'</div>');
+        jQuery('#basketItemInformation-'+index).append('<div class="basketItemQuantity">'+translations.quantity+basketData.orderListItems[index].quantity+'</div>');
+        jQuery('#basketItemInformation-'+index).append('<div class="basketItemSize">'+translations.size+basketData.orderListItems[index].sizeName+'</div>');
+        jQuery('#basketItemInformation-'+index).append('<div class="basketItemColor">'+translations.color+basketData.orderListItems[index].appearanceName+'</div>');
         jQuery('#basketItem-'+index).append('<div class="basketItemPrice " style="display:inline">'+fixPrice(basketData.orderListItems[index].price)+'</div>');
-        jQuery('#basketItemInformation-'+index).append('<button "class="miniBasketButton" id="delete-'+index+'" style="position: absolute;right:20px">Delete</button>');
+        jQuery('#basketItemInformation-'+index).append('<div  class="miniBasketButton fa fa-trash"  style="padding-left:0px" id="delete-'+index+'">'+translations.deleteItem+'</div>');
         jQuery('#delete-'+index).on("click",function(){deleteItem(basketData.orderListItems[index].apiId)});
     });
     totalQuantity=getBasketTotalQuantity();

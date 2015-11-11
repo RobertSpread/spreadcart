@@ -16,18 +16,19 @@
     opacity: 0.5;
     }
 
-#totalQuantity{
+#totalQuantity{    background: #e2122f none repeat scroll 0 0;
     border-radius: 50%;
+    color: white;
     font-size: 9px;
     font-weight: 700;
+    left: 10px;
     line-height: 2em;
     pointer-events: none;
-    position: absolute;
+    position: relative;
     text-align: center;
+    top: -35px;
     width: 2em;
     z-index: 1;
-    background: #e2122f none repeat scroll 0 0;
-    color: white;
     }
 
 .miniBasketLabel{
@@ -39,7 +40,7 @@
 
 .miniBasketPrice{
     text-align: right;
-    padding-right: 20px
+
     }
 
 #miniBasketDetails{
@@ -89,7 +90,8 @@
     padding: 20px;
     white-space: normal;
     display: inline-block;
-    width: 10em;
+    width: 40%;
+    font-size: 100%;
     }
 
 #miniBasketOptions{
@@ -100,6 +102,7 @@
 .basketItemPrice{
     padding: 20px;
     float: right;
+    font-size: 110%;
     }
 
 #miniBasketFooter{

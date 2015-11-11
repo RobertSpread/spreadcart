@@ -19,14 +19,11 @@ die();
 
 
 
-function createSprdAuthHeader($method, $url)
-{
-    $apiKey = "add your api key here";
-    $secret = "add your api secret here";
+function createSprdAuthHeader($method, $url){
+    $apiKey = "";
+    $secret = "";
     $time = time()*1000;
     $data = "$method $url $time";
     $sig = sha1("$data $secret");
-
-    //return 'Authorization: SprdAuth apiKey='.$apiKey.', data='.$data.', sig='.$sig;
     return "Authorization: SprdAuth apiKey=\"".$apiKey."\", data=\"$data\", sig=\"$sig\"";
-}
+    }
