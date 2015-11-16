@@ -22,6 +22,9 @@ jQuery(document).ready(function(){
     });
 
 
+window.onSpreadShopLoaded=function(e){
+    jQuery('#addToBasket').on("click",function(){updateQuantity()});
+};
 
 //button to display minibasket is appended to defined basket container, binding function to display basket to button
 function insertMiniBasketCaller(){
@@ -142,4 +145,9 @@ function updateBasketContent(){
     jQuery('#priceItems').html(fixPrice(itemTotal));
     jQuery('#priceShipping').html(fixPrice(shippingCosts));
 
+}
+
+function updateQuantity(){
+    totalQuantity=getBasketTotalQuantity();
+    jQuery('#totalQuantity').html(totalQuantity);
 }

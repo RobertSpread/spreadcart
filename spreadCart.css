@@ -109,3 +109,13 @@
     border-top: 1px solid #eeeeee;
     padding: 20px;
     }
+
+@media (max-width: 768px) {
+    #miniBasketDetails{
+        left: 0;
+        width: 100%;
+        margin: 0;
+        min-width: 100%;
+        max-width: 100%;
+    }
+}
