@@ -1,10 +1,3 @@
-#checkoutLink{
-    background-color: #e2122f;
-    border: 1px solid #96122c;
-    box-shadow: 0 2px 0 0 #96122c;
-    color: #f6f6f6;
-    }
-
 #miniBasketBackground{
     z-index: 100000;
     position: fixed;
@@ -43,6 +36,7 @@
 
     }
 
+#miniEmptyCart,
 #miniBasketDetails{
     padding: 20px;
     z-index: 100001;
@@ -59,6 +53,26 @@
     background-color: white;
     box-shadow: #eeeeee 2px 2px 2px ;
     }
+    
+#miniEmptyCart {
+    display: none;
+    padding: 60px;
+}
+
+#miniEmptyNotice {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}
+
+#miniEmptyOptions {
+    padding-top: 25px;
+    text-align: center;
+}
+
+#miniBasketInfo {
+    padding: 0 20px 20px 20px;
+}
 
 #miniBasketContent{
     max-height: 30em;
@@ -75,16 +89,46 @@
     color: #22262d;
     }
 
-.miniBasketButton {
-    right: 0;
+.basketItemName {
+    padding-bottom: 8px;
+}
+
+button.miniBasketButton {
     box-sizing: border-box;
     cursor: pointer;
     display: inline-block;
     padding: 0.7em 1.2em;
     text-align: center;
     vertical-align: middle;
+    font-size: 14px;
     }
 
+#miniCloseEmptyCart,
+#continueShoppingLink,
+#checkoutLink {
+    box-shadow: 2px 2px 0 0 #bbb;
+    }
+ 
+#miniCloseEmptyCart,
+#continueShoppingLink {
+    background-color: #fff;
+    border: 1px solid #000;
+    color: #000;
+    }
+
+#continueShoppingLink {
+    position: absolute;
+    left: 40px;
+    }
+
+#checkoutLink{
+    position: absolute;
+    right: 40px;
+    background-color: #e2122f;
+    border: 1px solid #96122c;
+    color: #f6f6f6;
+    }
+ 
 .basketItemInformation{
     vertical-align: top;
     padding: 20px;
@@ -95,7 +139,7 @@
     }
 
 #miniBasketOptions{
-    padding: 20px;
+    padding: 20px 0;
     border-top: dashed 2px #eeeeee
     }
 
@@ -104,6 +148,10 @@
     float: right;
     font-size: 110%;
     }
+    
+#priceTotal {
+    font-weight: bold;
+}
 
 #miniBasketFooter{
     border-top: 1px solid #eeeeee;
