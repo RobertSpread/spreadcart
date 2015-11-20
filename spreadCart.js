@@ -1,10 +1,10 @@
 /**
-Creates a shopping cart icon and a shopping cart at an indicated DIV. Must be configured via pluginSpreadCart_config and pluginSpreadCart_lang.
+Creates a shopping cart icon and a shopping cart at an indicated DIV. Must be configured via spreadCart_config and spreadCart_lang.
 **/
 
 function SpreadCartPlugin(config, stringsByLanguage) {
-    // config - values from pluginSpreadCart_config
-    // strings - values from a language of pluginSpreadCart_lang
+    // config - values from spreadCart_config
+    // strings - values from a language of spreadCart_lang
 
     this.config = config;
     this.strings = stringsByLanguage[config.lang];
@@ -86,7 +86,7 @@ SpreadCartPlugin.prototype.buildCustomMiniBasket = function() {
     jQuery('#miniBasketContainer').append('<div id="emptyMiniBasketContainer" style="display: none"></div>');
     jQuery('#miniBasketContainer').append('<div id="filledMiniBasketContainer" style="display: none"></div>');
     jQuery('#emptyMiniBasketContainer').append('<div id="miniEmptyNotice">'+this.strings.emptyCart+'</div><div id="miniEmptyOptions"></div></div>');
-    jQuery('#emptyMiniBasketContainer').append('<button class="miniBasketButton" id="miniCloseEmptyCart">'+this.strings.continueShopping+'</button>');
+    jQuery('#miniEmptyOptions').append('<button class="miniBasketButton" id="miniCloseEmptyCart">'+this.strings.continueShopping+'</button>');
     jQuery('#filledMiniBasketContainer').append('<div id="miniBasketDetails"></div>');
 
 
@@ -221,10 +221,7 @@ SpreadCartPlugin.prototype.updateQuantity = function() {
 jQuery(document).ready(function() {
 
     // create cart on ready so cart config can be anywhere in page
-    var cart = new SpreadCartPlugin(
-        pluginSpreadCart_config,
-        pluginSpreadCart_lang
-    );
+    var cart = new SpreadCartPlugin(spreadCart_config, spreadCart_lang);
     cart.buildCustomMiniBasket();
 });
 
