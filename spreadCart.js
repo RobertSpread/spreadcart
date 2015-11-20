@@ -15,6 +15,7 @@ function SpreadCartPlugin(config, stringsByLanguage) {
         var cart = this;
     
         window.onSpreadShopLoaded = function(e) {
+            jQuery('#basketButton').remove();
             jQuery('#addToBasket').on("click", function() {
                 cart.updateQuantity();
             });
@@ -174,7 +175,7 @@ SpreadCartPlugin.prototype.updateBasketContent = function() {
     jQuery('#miniBasketContent').html(" ");
     jQuery.each( basketData.orderListItems, function(index ){
         jQuery('#miniBasketContent').append('<div class="basketItem" id="basketItem-'+index+'"></div>');
-        jQuery('#basketItem-'+index).append('<img style="width:30%" src="'+cart.config.mediaURL+basketData.orderListItems[index].productId+'"/>');
+        jQuery('#basketItem-'+index).append('<img style="width:30%" src="'+cart.config.mediaURL+basketData.orderListItems[index].productId+'?appearanceId='+basketData.orderListItems[index].appearanceId+'"/>');
         jQuery('#basketItem-'+index).append('<div class="basketItemInformation" id="basketItemInformation-'+index+'"></div>');
         jQuery('#basketItemInformation-'+index).append('<div class="basketItemName">'+basketData.orderListItems[index].ptName+'</div>');
         jQuery('#basketItemInformation-'+index).append('<div class="basketItemQuantity">'+cart.strings.quantity+": "+basketData.orderListItems[index].quantity+'</div>');
