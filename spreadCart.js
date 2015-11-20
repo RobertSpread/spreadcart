@@ -142,9 +142,9 @@ SpreadCartPlugin.prototype.deleteItem = function(id){
     var basketData = this.getBasketData();
     
     jQuery.ajax({
-        url:'proxy.php',
-//        type:'POST',
-        data:{
+      url:'proxy.php',
+        type:'POST',
+       data:{
             "basketItemId":id,
             "basketId":basketData.apiBasketId,
             "platformTLD":this.config.tld
