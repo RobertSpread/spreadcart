@@ -38,7 +38,7 @@
     }
 
 #miniEmptyCart,
-#miniBasketDetails{
+#miniBasketContainer{
     padding: 20px;
     z-index: 100001;
     margin-top: 1px;
@@ -160,7 +160,7 @@ button.miniBasketButton {
     }
 
 @media (max-width: 768px) {
-    #miniBasketDetails{
+    #miniBasketConatiner{
         left: 0;
         width: 100%;
         margin: 0;

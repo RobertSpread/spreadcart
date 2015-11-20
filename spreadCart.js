@@ -78,13 +78,17 @@ SpreadCartPlugin.prototype.getBasketData = function() {
 SpreadCartPlugin.prototype.buildCustomMiniBasket = function() {
     var basketData = this.getBasketData();
     var cart = this;
-    
+
     this.insertMiniBasketCaller();
-    jQuery("body").prepend('<div id="miniBasketBackground" style="display: none"></div>');
-    jQuery('body').prepend('<div id="miniEmptyCart"><div id="miniEmptyNotice">'+
-        this.strings.emptyCart+'</div><div id="miniEmptyOptions"></div></div>');
-    jQuery('#miniEmptyOptions').append('<button class="miniBasketButton" id="miniCloseEmptyCart">'+this.strings.continueShopping+'</button>');
-    jQuery('body').prepend('<div id="miniBasketDetails" style="display:none"></div>');
+
+    jQuery('body').prepend('<div id="miniBasketBackground" style="display: none"></div>');
+    jQuery('body').prepend('<div id="miniBasketContainer" style="display: none"></div>');
+    jQuery('#miniBasketContainer').append('<div id="emptyMiniBasketContainer" style="display: none"></div>');
+    jQuery('#miniBasketContainer').append('<div id="filledMiniBasketContainer" style="display: none"></div>');
+    jQuery('#emptyMiniBasketContainer').append('<div id="miniEmptyNotice">'+this.strings.emptyCart+'</div><div id="miniEmptyOptions"></div></div>');
+    jQuery('#emptyMiniBasketContainer').append('<button class="miniBasketButton" id="miniCloseEmptyCart">'+this.strings.continueShopping+'</button>');
+    jQuery('#filledMiniBasketContainer').append('<div id="miniBasketDetails"></div>');
+
 
     if(this.strings.information) {
         jQuery('#miniBasketDetails').append('<div id="miniBasketInfo">'+
@@ -127,15 +131,10 @@ SpreadCartPlugin.prototype.buildCustomMiniBasket = function() {
 //function to toggle the display of the basket and the basket background.
 SpreadCartPlugin.prototype.showMiniBasket = function() {
     var basketData = this.getBasketData();
-    
-    if(basketData === null || basketData.orderListItems === null ||
-            basketData.orderListItems.length == 0)
-        $( "#miniEmptyCart" ).toggle("display");
-    else {
-        $( "#miniBasketDetails" ).toggle("display");
-        this.updateBasketContent();
-    }
+    $( "#miniBasketContainer" ).toggle("display");
     $( "#miniBasketBackground" ).toggle("display");
+    this.updateBasketContent()
+
 };
 
 //deletes selected item from basket. needs proxy.php to delete it from the API basket. also updates basket in local storage that is needed to display the basket
@@ -144,7 +143,7 @@ SpreadCartPlugin.prototype.deleteItem = function(id){
     
     jQuery.ajax({
         url:'proxy.php',
-        type:'POST',
+//        type:'POST',
         data:{
             "basketItemId":id,
             "basketId":basketData.apiBasketId,
@@ -171,7 +170,18 @@ SpreadCartPlugin.prototype.fixPrice = function(value) {
 SpreadCartPlugin.prototype.updateBasketContent = function() {
     var basketData = this.getBasketData();
     var cart = this;
-    
+
+    if(basketData === null || basketData.orderListItems === null || basketData.orderListItems.length == 0 ) {
+     jQuery('#emptyMiniBasketContainer').css({"display":"inline"})
+        jQuery('#filledMiniBasketContainer').css({"display":"none"})
+    }
+
+
+    else {
+        jQuery('#emptyMiniBasketContainer').css({"display":"none"})
+        jQuery('#filledMiniBasketContainer').css({"display":"inline"})
+
+
     jQuery('#miniBasketContent').html(" ");
     jQuery.each( basketData.orderListItems, function(index ){
         jQuery('#miniBasketContent').append('<div class="basketItem" id="basketItem-'+index+'"></div>');
@@ -189,7 +199,7 @@ SpreadCartPlugin.prototype.updateBasketContent = function() {
             });
         }
     });
-    
+    }
     var totalQuantity = this.getBasketTotalQuantity();
     var basketTotal = this.getBasketTotal();
     var itemTotal = this.getItemTotal();
@@ -199,6 +209,7 @@ SpreadCartPlugin.prototype.updateBasketContent = function() {
     jQuery('#priceItems').html(this.fixPrice(itemTotal));
     jQuery('#priceShipping').html(this.fixPrice(shippingCosts));
     return true;
+
 };
 
 SpreadCartPlugin.prototype.updateQuantity = function() {
