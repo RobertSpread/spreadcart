@@ -9,6 +9,7 @@
     opacity: 0.5;
     }
 
+#basketButton{display: none !important;}
 #totalQuantity{    background: #e2122f none repeat scroll 0 0;
     border-radius: 50%;
     color: white;
