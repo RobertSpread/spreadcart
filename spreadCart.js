@@ -140,7 +140,7 @@ SpreadCartPlugin.prototype.showMiniBasket = function() {
 
 //deletes selected item from basket. needs proxy.php to delete it from the API basket. also updates basket in local storage that is needed to display the basket
 SpreadCartPlugin.prototype.deleteItem = function(id){
-    var basketData = getBasketData();
+    var basketData = this.getBasketData();
     
     jQuery.ajax({
         url:'proxy.php',
