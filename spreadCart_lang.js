@@ -24,9 +24,9 @@ This file also allows a site to dynamically select the language according to the
 
 **/
 
-var pluginSpreadCart_lang = {};
+var spreadCart_lang = {};
 
-pluginSpreadCart_lang.de = {
+spreadCart_lang.de = {
     information: "",
     currencyIndicator: " &euro;",
     quantity: "Anzahl",
@@ -43,7 +43,7 @@ pluginSpreadCart_lang.de = {
     emptyCart: "Ihren Einkaufswagen ist leer"
 };
 
-pluginSpreadCart_lang.en_us = {
+spreadCart_lang.en_us = {
     information: "",
     currencyIndicator: " $",
     quantity: "Quantity",

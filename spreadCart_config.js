@@ -1,4 +1,4 @@
-var pluginSpreadCart_config = {
+var spreadCart_config = {
 
     // language ID, as used in the spreadCart_lang.js language strings
     lang: "en_us",
@@ -32,5 +32,5 @@ var pluginSpreadCart_config = {
     returnURL: encodeURIComponent(window.location.href)
 };
 
-var strings = pluginSpreadCart_lang[pluginSpreadCart_config.lang];
+var strings = spreadCart_lang[spreadCart_config.lang];
 // change strings as desired for particular site
