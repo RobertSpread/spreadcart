@@ -36,6 +36,10 @@
     text-align: right;
 
     }
+    
+.miniBasketButton:hover {
+    cursor: pointer;
+}
 
 #miniBasketContainer{
     padding: 20px;
