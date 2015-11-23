@@ -3,21 +3,15 @@ var spreadCart_config = {
     // language ID, as used in the spreadCart_lang.js language strings
     lang: "en_us",
 
-    // whether or not to render a shopping cart icon that shows the number
-    // of items in the cart. when false, the page instead identifies an
-    // element that is to open the shopping cart when clicked.
-
-    showBasketIcon: true,
-
     // id (not a class) of the element that the user clicks on to open the
-    // shopping cart. when showBasketIcon is true, clickTargetID must
-    // identify a div. when showBasketIcon is false, clickTargetID
-    // identifies the element that is to open the shopping cart when
-    // clicked. For example, set showBasketIcon to false and clickTargetID
-    // to 'myPluginCartLink' to have the following link open the cart:
-    // "<a id='myPluginCartLink' href='#'>Shopping Cart</a>"
+    // shopping cart. When clickTargetID is set to "spreadCartIcon", the
+    // plugin-provided icon is displayed on the element, and the element must
+    // be a div. When clickTargetID is any other ID, it is an element you
+    // provide that is to open the shopping cart when clicked. For example,
+    // set clickTargetID to 'mySpreadCartLink' to have the following link open
+    // the cart: "<a id='mySpreadCartLink'>Shopping Cart</a>"
 
-    clickTargetID: "myBasket",
+    clickTargetID: "spreadCartIcon",
 
     // .com,.de,.co.uk or any other supported domain
     tld: "de",

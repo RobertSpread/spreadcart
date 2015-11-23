@@ -10,7 +10,17 @@
     }
 
 #basketButton{display: none !important;}
-#totalQuantity{    background: #e2122f none repeat scroll 0 0;
+
+#spreadCartIcon {
+    position: relative;
+}
+
+#spreadCartIcon:hover {
+    cursor: pointer;
+}
+
+#totalQuantity{
+    background: #e2122f none repeat scroll 0 0;
     border-radius: 50%;
     color: white;
     font-size: 9px;
@@ -18,9 +28,9 @@
     left: 10px;
     line-height: 2em;
     pointer-events: none;
-    position: relative;
+    position: absolute;
     text-align: center;
-    top: -35px;
+    top: -17px; /*top: -35px;*/
     width: 2em;
     z-index: 1;
     }
@@ -37,10 +47,6 @@
 
     }
     
-.miniBasketButton:hover {
-    cursor: pointer;
-}
-
 #miniBasketContainer{
     padding: 20px;
     z-index: 100001;
@@ -101,6 +107,10 @@ button.miniBasketButton {
     vertical-align: middle;
     font-size: 14px;
     }
+
+.miniBasketButton:hover {
+    cursor: pointer;
+}
 
 #miniCloseEmptyCart,
 #continueShoppingLink,

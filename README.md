@@ -28,9 +28,9 @@ You can deploy the plugin in any of the following ways according to how you prio
 
 (1) Deploy the default configuration. The SpreadShop cart is hidden, and the plugin cart is the only means for accessing the shopping cart. The user can delete items from the cart if you also deploy the proxy server. The user cannot otherwise change the quantities of items in the cart.
 
-(2) Enable both the plugin cart and the SpreadShop cart. If the user makes changes in the SpreadShop cart, the item counts reported by the two carts will differ until the user displays the plugin cart again. This is done by setting `showBasketIcon` to true and adding the following CSS anywhere *after* `spreadCart.css` is loaded: `#basketButton{display: inline-block !important;}`.
+(2) Enable both the plugin cart and the SpreadShop cart. If the user makes changes in the SpreadShop cart, the item counts reported by the two carts will differ until the user displays the plugin cart again. This is done by adding the following CSS anywhere *after* `spreadCart.css` is loaded: `#basketButton{display: inline-block !important;}`.
 
-(3) Enable both carts, but disable the item count on the plugin cart, so the user will not see count discrepancies. This is done by setting `showBasketIcon` to false and adding the following CSS anywhere *after* `spreadCart.css` is loaded: `#basketButton{display: inline-block !important;}`. You will also need to add your own clickable element for displaying the cart, such as the following: `<a id="myPluginCartLink">Shopping Cart</a>`. You may also want to induce link-like pointer behavior with the following CSS: `#myPluginCartLink:hover {cursor:pointer;}`.
+(3) Enable both carts, but disable the item count on the plugin cart, so the user will not be concerned with apparent quantity discrepancies. This is done by setting `clickTargetID` to an ID other than `spreadCartIcon` and putting this ID on your own custom element. Here's an example custom element: `<a id="mySpreadCartLink">Shopping Cart</a>`. You may also want to induce link-like pointer behavior with the following CSS: `#mySpreadCartLink:hover {cursor:pointer;}`. In addition, to show the SpreadShop cart, add the following CSS anywhere *after* `spreadCart.css` is loaded: `#basketButton{display: inline-block !important;}`. 
 
 ## Deploying a Proxy Server
 
