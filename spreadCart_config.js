@@ -29,7 +29,13 @@ var spreadCart_config = {
     mediaURL: "//image.spreadshirtmedia.net/image-server/v1/products/",
 
     // location from where the customer enters checkout
-    returnURL: encodeURIComponent(window.location.href)
+    returnURL: encodeURIComponent(window.location.href),
+    
+    // relative URL to shopping cart proxy. must be on your store's web site,
+    // as otherwise the browser will refuse for cross-origin security reasons.
+    // the last component of the path is "proxy.php" when using the provided
+    // PHP script or "/cart" when using the provided node.js server.
+    proxyPath: "proxy.php"
 };
 
 var strings = spreadCart_lang[spreadCart_config.lang];
