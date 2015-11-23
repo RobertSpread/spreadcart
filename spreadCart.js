@@ -2,22 +2,28 @@
 Creates a shopping cart icon and a shopping cart at an indicated DIV. Must be configured via spreadCart_config and spreadCart_lang.
 **/
 
+//// CONSTANTS ////
+
+var DEFAULT_ICON_ID = "spreadCartIcon"; // ID of plugin-provided cart icon
+
 //// CONSTRUCTOR ////
 
 function SpreadCartPlugin(config, stringsByLanguage) {
     // config - values from spreadCart_config
     // strings - values from a language of spreadCart_lang
+    // showDefaultIcon - whether we're using the plugin-provided icon
 
     this.config = config;
     this.strings = stringsByLanguage[config.lang];
+    this.showDefaultIcon = (this.config.clickTargetID == DEFAULT_ICON_ID);
 
-    if(config.showBasketIcon) {
+    if(this.showSpreadCartIcon) {
         // only update if requested in order to allow this feature to sidestep
         // possible issues with evolving SpreadShop implementations
         var cart = this;
     
         window.onSpreadShopLoaded = function(e) {
-            jQuery('#basketButton').remove();
+            //jQuery('#basketButton').remove();
             jQuery('#addToBasket').on("click", function() {
                 cart.updateQuantity();
             });
@@ -32,10 +38,10 @@ SpreadCartPlugin.prototype.insertMiniBasketCaller = function() {
     var clickableID = '#'+this.config.clickTargetID;;
     var cart = this;
     
-    if(this.config.showBasketIcon) {
+    if(this.showDefaultIcon) {
         jQuery('#miniBasket').remove();
         jQuery(clickableID).append('<div id="miniBasket" '+
-            'class="miniBasketButton  fa fa-shopping-cart fa-2x">'+
+            'class="fa fa-shopping-cart fa-2x">'+
             '<div id="totalQuantity"></div></div>');
         clickableID = '#miniBasket';
     }
@@ -128,16 +134,16 @@ SpreadCartPlugin.prototype.updateBasketContent = function() {
                 });
             }
         });
-    }
     
-    var totalQuantity = this.getBasketTotalQuantity();
-    var basketTotal = this.getBasketTotal();
-    var itemTotal = this.getItemTotal();
-    var shippingCosts = this.getShippingTotal();
-    jQuery('#totalQuantity').html(totalQuantity);
-    jQuery('#priceTotal').html(this.fixPrice(basketTotal));
-    jQuery('#priceItems').html(this.fixPrice(itemTotal));
-    jQuery('#priceShipping').html(this.fixPrice(shippingCosts));
+        var basketTotal = basketData.priceTotal;
+        var itemTotal = basketData.priceItems;
+        var shippingCosts = basketData.priceShipping;
+        jQuery('#priceTotal').html(this.fixPrice(basketTotal));
+        jQuery('#priceItems').html(this.fixPrice(itemTotal));
+        jQuery('#priceShipping').html(this.fixPrice(shippingCosts));
+    }
+
+    this.updateQuantity();
     return true;
 };
 
@@ -147,36 +153,6 @@ SpreadCartPlugin.prototype.showMiniBasket = function() {
     $( "#miniBasketContainer" ).toggle("display");
     $( "#miniBasketBackground" ).toggle("display");
     this.updateBasketContent();
-};
-
-//// ACCESSOR METHODS ////
-
-SpreadCartPlugin.prototype.getItemTotal = function() {
-    var basketData = this.getBasketData();
-    var itemTotal = basketData.priceItems;
-    return itemTotal;
-};
-
-SpreadCartPlugin.prototype.getBasketTotal = function() {
-    var basketData = this.getBasketData();
-    var basketTotal = basketData.priceTotal;
-    return basketTotal;
-};
-
-SpreadCartPlugin.prototype.getShippingTotal = function() {
-    var basketData = this.getBasketData();
-    var shippingFee = basketData.priceShipping;
-    return shippingFee;
-};
-
-SpreadCartPlugin.prototype.getBasketTotalQuantity = function() {
-    var totalQuantity = 0;
-    var basketData = this.getBasketData();
-    
-    jQuery.each(basketData.orderListItems, function(index) {
-        totalQuantity += basketData.orderListItems[index].quantity;
-    });
-    return totalQuantity;
 };
 
 //// SERVICE METHODS ////
@@ -217,7 +193,7 @@ SpreadCartPlugin.prototype.deleteItem = function(id){
     });
 };
 
-//// SUPPORT METHODS ////
+//// BASKET METHODS ////
 
 SpreadCartPlugin.prototype.getBasketData = function() {
     var basketData = JSON.parse(localStorage.getItem("mmBasket"));
@@ -228,14 +204,28 @@ SpreadCartPlugin.prototype.putBasketData = function(basketData) {
     localStorage.setItem("mmBasket", JSON.stringify(basketData));
 };
 
-// function to format prices properly. Basically defines that 2 decimals and a currency indicator is set
-SpreadCartPlugin.prototype.fixPrice = function(value) {
-    return value.toFixed(2)+""+this.strings.currencyIndicator;
+SpreadCartPlugin.prototype.getBasketTotalQuantity = function() {
+    var totalQuantity = 0;
+    var basketData = this.getBasketData();
+    
+    if (basketData !== null && basketData.orderListItems !== null) {
+        jQuery.each(basketData.orderListItems, function(index) {
+            totalQuantity += basketData.orderListItems[index].quantity;
+        });
+    }
+    return totalQuantity;
 };
 
 SpreadCartPlugin.prototype.updateQuantity = function() {
     var totalQuantity = this.getBasketTotalQuantity();
     jQuery('#totalQuantity').html(totalQuantity);
+};
+
+//// SUPPORT METHODS ////
+
+// function to format prices properly. Basically defines that 2 decimals and a currency indicator is set
+SpreadCartPlugin.prototype.fixPrice = function(value) {
+    return value.toFixed(2)+""+this.strings.currencyIndicator;
 };
 
 SpreadCartPlugin.prototype.ajaxError = function(xhr, status, err) {
