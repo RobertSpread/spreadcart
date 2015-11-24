@@ -30,7 +30,7 @@
     pointer-events: none;
     position: absolute;
     text-align: center;
-    top: -17px; /*top: -35px;*/
+    top: -17px;
     width: 2em;
     z-index: 1;
     }
@@ -61,7 +61,6 @@
     overflow-x: hidden;
     overflow-y: auto;
     background-color: white;
-    box-shadow: #eeeeee 2px 2px 2px ;
     }
     
 #miniEmptyNotice {
