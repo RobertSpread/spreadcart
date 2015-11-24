@@ -21,11 +21,9 @@ function SpreadCartPlugin(config, stringsByLanguage) {
         // only update if requested in order to allow this feature to sidestep
         // possible issues with evolving SpreadShop implementations
         var cart = this;
-        var fn = window.onSpreadShopLoaded;
-
-        
+    
         window.onSpreadShopLoaded = function(e) {
-            fn( e );
+            //jQuery('#basketButton').remove();
             jQuery('#addToBasket').on("click", function() {
                 cart.updateQuantity();
             });
