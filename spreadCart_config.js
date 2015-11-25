@@ -29,7 +29,13 @@ var spreadCart_config = {
     // as otherwise the browser will refuse for cross-origin security reasons.
     // the last component of the path is "proxy.php" when using the provided
     // PHP script or "/cart" when using the provided node.js server.
-    proxyPath: "proxy.php"
+    proxyPath: "proxy.php",
+    
+    // optional function that will be called when the first item is put in the
+    // cart and the last item is removed from the cart. The called method takes
+    // a single parameter, which is the checkout URL when an item is added to
+    // the cart and null when the last item is removed from the cart.
+    stateHandler: null
 };
 
 var strings = spreadCart_lang[spreadCart_config.lang];

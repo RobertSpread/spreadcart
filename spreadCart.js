@@ -100,10 +100,7 @@ SpreadCartPlugin.prototype.buildCustomMiniBasket = function() {
         jQuery('#miniBasketOptions').append('<button class="miniBasketButton" id="continueShoppingLink">'+this.strings.continueShopping+'</button>');
         jQuery('#miniBasketOptions').append('<button class="miniBasketButton" id="checkoutLink">'+this.strings.goToCheckout+'</button>');
         jQuery('#checkoutLink').on("click", function() {
-            window.location = "https://checkout.spreadshirt."+
-                cart.config.tld+"/?basketId="+basketData.apiBasketId+
-                "&shopId="+cart.config.shopID+
-                "&emptyBasketUrl="+cart.config.returnURL;
+            window.location = cart.getCheckoutURL();
         });
 
         jQuery('#continueShoppingLink').on("click", function() {
@@ -228,8 +225,23 @@ SpreadCartPlugin.prototype.getBasketTotalQuantity = function() {
 
 SpreadCartPlugin.prototype.updateQuantity = function() {
     var totalQuantity = this.getBasketTotalQuantity();
+    if(this.config.stateHandler !== null) {
+        if(totalQuantity == 0)
+            this.config.stateHandler(null);
+        else
+            this.config.stateHandler(this.getCheckoutURL());
+    }
     jQuery('#totalQuantity').html(totalQuantity);
 };
+
+SpreadCartPlugin.prototype.getCheckoutURL = function() {
+    var basketData = this.getBasketData();
+
+    return "https://checkout.spreadshirt."+
+            this.config.tld +"/?basketId="+ basketData.apiBasketId+
+            "&shopId="+ this.config.shopID +
+            "&emptyBasketUrl="+ this.config.returnURL;
+}
 
 //// SUPPORT METHODS ////
 
