@@ -4,8 +4,9 @@ $tld=$_POST["platformTLD"];
 $basketItemId=$_POST["basketItemId"];
 $quantity=$_POST["quantity"];
 $productId=$_POST["productId"];
+$sizeId=$_POST["sizeId"];
+$appearanceId=$_POST["appearanceId"];
 $action=$_POST["operation"];
-$shopId="205909";
 if($action=="update"){
     $basketItemsURL = "api.spreadshirt.".$tld."/api/v1/baskets/".$basketId."/items/".$basketItemId;
     $basketItem = new SimpleXmlElement('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -13,14 +14,11 @@ if($action=="update"){
 					<quantity>'.$quantity.'</quantity>
 					<element id="'.$productId.'" type="sprd:product" xlink:href="http://api.spreadshirt.de/api/v1/shops/1070242/products/'.$productId.'">
 					<properties>
-					<property key="appearance">348</property>
-					<property key="size">3</property>
+					<property key="appearance">'.$appearanceId.'</property>
+					<property key="size">'.$sizeId.'</property>
 					</properties>
 					</element>
-					<links>
-					<link type="edit" xlink:href="http://1070242.spreadshirt.de/-A26620609"/>
-					<link type="continueShopping" xlink:href="http://1070242.spreadshirt.de"/>
-					</links>
+
 					</basketItem>');
     $header = array();
     $header[] = createSprdAuthHeader("PUT", $basketItemsURL);
@@ -63,8 +61,8 @@ if($action=="delete"){
 
 
 function createSprdAuthHeader($method, $url){
-    $apiKey = "4a12747f-0963-4cc7-9bb3-1d2e0ee32eae";
-    $secret = "da914243-20df-4bcd-a2ef-91c60b7e1a97";
+    $apiKey = "";
+    $secret = "";
     $time = time()*1000;
     $data = "$method $url $time";
     $sig = sha1("$data $secret");

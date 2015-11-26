@@ -145,7 +145,7 @@ SpreadCartPlugin.prototype.updateBasketContent = function() {
 
                 });
                 jQuery('#update-'+index).on("click",function() {
-                    cart.updateItem(basketData.orderListItems[index].apiId,basketData.orderListItems[index].quantity,basketData.orderListItems[index].apiProductId)
+                    cart.updateItem(basketData.orderListItems[index].apiId,"100",basketData.orderListItems[index].apiProductId,basketData.orderListItems[index].appearanceId,basketData.orderListItems[index].sizeId)
 
                 });
             }
@@ -210,7 +210,7 @@ SpreadCartPlugin.prototype.deleteItem = function(id){
 };
 
 
-SpreadCartPlugin.prototype.updateItem = function(id,quantity,productId){
+SpreadCartPlugin.prototype.updateItem = function(id,quantity,productId,appearanceId,sizeId){
     var basketData = this.getBasketData();
     var cart = this;
 
@@ -220,8 +220,10 @@ SpreadCartPlugin.prototype.updateItem = function(id,quantity,productId){
         data:{
             "operation": "update",
             "basketItemId":id,
-            "quantity":"100",
+            "quantity":quantity,
             "productId":productId,
+            "appearanceId":appearanceId,
+            "sizeId":sizeId,
             "basketId":basketData.apiBasketId,
             "platformTLD":this.config.tld
         },
