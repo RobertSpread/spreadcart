@@ -139,8 +139,14 @@ SpreadCartPlugin.prototype.updateBasketContent = function() {
             jQuery('#basketItem-'+index).append('<div class="basketItemPrice " style="display:inline">'+cart.fixPrice(basketData.orderListItems[index].price)+'</div>');
             if(cart.strings.deleteItem) {
                 jQuery('#basketItemInformation-'+index).append('<div  class="miniBasketButton fa fa-trash"  style="padding-left:0px" id="delete-'+index+'"><a>'+cart.strings.deleteItem+'</a></div>');
+                jQuery('#basketItemInformation-'+index).append('<div  class="miniBasketButton fa fa-trash"  style="padding-left:0px" id="update-'+index+'"><a>make it 100</a></div>');
                 jQuery('#delete-'+index).on("click",function() {
                     cart.deleteItem(basketData.orderListItems[index].apiId)
+
+                });
+                jQuery('#update-'+index).on("click",function() {
+                    cart.updateItem(basketData.orderListItems[index].apiId,basketData.orderListItems[index].quantity,basketData.orderListItems[index].apiProductId)
+
                 });
             }
         });
@@ -203,6 +209,45 @@ SpreadCartPlugin.prototype.deleteItem = function(id){
     });
 };
 
+
+SpreadCartPlugin.prototype.updateItem = function(id,quantity,productId){
+    var basketData = this.getBasketData();
+    var cart = this;
+
+    jQuery.ajax({
+        url: this.config.proxyPath,
+        type:'POST',
+        data:{
+            "operation": "update",
+            "basketItemId":id,
+            "quantity":"100",
+            "productId":productId,
+            "basketId":basketData.apiBasketId,
+            "platformTLD":this.config.tld
+        },
+        dataType: "json",
+
+        success: function(data, status, xhr) {
+            for (var i=0; i < basketData.orderListItems.length; i++) {
+                if(basketData.orderListItems[i].apiId===id) {
+                    basketData.priceTotal = basketData.priceTotal -
+                    (basketData.orderListItems[i].price*
+                    basketData.orderListItems[i].quantity);
+                    basketData.priceItems = basketData.priceItems -
+                    (basketData.orderListItems[i].price*
+                    basketData.orderListItems[i].quantity);
+                    basketData.orderListItems.splice(i,1);
+                    cart.putBasketData(basketData);
+                    cart.updateBasketContent();
+                }
+            }
+        },
+
+        error: this.ajaxError
+    });
+};
+
+
 //// BASKET METHODS ////
 
 SpreadCartPlugin.prototype.getBasketData = function() {
@@ -254,7 +299,7 @@ SpreadCartPlugin.prototype.ajaxError = function(xhr, status, err) {
                 break;
         }
     }
-    alert("error: "+ msg);
+    //alert("error: "+ msg);
 };
 
 //// INSTALLATION ////
