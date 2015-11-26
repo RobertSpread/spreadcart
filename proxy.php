@@ -2,12 +2,12 @@
 $basketId=$_POST["basketId"];
 $tld=$_POST["platformTLD"];
 $basketItemId=$_POST["basketItemId"];
-$quantity=$_POST["quantity"];
-$productId=$_POST["productId"];
-$sizeId=$_POST["sizeId"];
-$appearanceId=$_POST["appearanceId"];
 $action=$_POST["operation"];
 if($action=="update"){
+    $quantity=$_POST["quantity"];
+    $productId=$_POST["productId"];
+    $sizeId=$_POST["sizeId"];
+    $appearanceId=$_POST["appearanceId"];
     $basketItemsURL = "api.spreadshirt.".$tld."/api/v1/baskets/".$basketId."/items/".$basketItemId;
     $basketItem = new SimpleXmlElement('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 					<basketItem xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://api.spreadshirt.net">
@@ -30,7 +30,6 @@ if($action=="update"){
     curl_setopt($ch, CURLOPT_POSTFIELDS, $basketItem->asXML());
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HEADER, true);
-
     $result = curl_exec($ch);
     var_dump($result);
     curl_close($ch);
@@ -54,6 +53,7 @@ if($action=="delete"){
     $result = curl_exec($ch);
     curl_close($ch);
     die();
+    return;
     }
 
 

@@ -177,8 +177,7 @@ SpreadCartPlugin.prototype.showMiniBasket = function() {
 SpreadCartPlugin.prototype.deleteItem = function(id){
     var basketData = this.getBasketData();
     var cart = this;
-
-    jQuery.ajax({
+    var request=jQuery.ajax({
         url: this.config.proxyPath,
         type:'POST',
         data:{
@@ -187,9 +186,10 @@ SpreadCartPlugin.prototype.deleteItem = function(id){
             "basketId":basketData.apiBasketId,
             "platformTLD":this.config.tld
         },
-        dataType: "json",
+        dataType: "json"
+    });
 
-        success: function(data, status, xhr) {
+
             for (var i=0; i < basketData.orderListItems.length; i++) {
                 if(basketData.orderListItems[i].apiId===id) {
                     basketData.priceTotal = basketData.priceTotal -
@@ -201,12 +201,13 @@ SpreadCartPlugin.prototype.deleteItem = function(id){
                     basketData.orderListItems.splice(i,1);
                     cart.putBasketData(basketData);
                     cart.updateBasketContent();
-                }
-            }
-        },
 
-        error: this.ajaxError
-    });
+
+            }};
+
+
+
+
 };
 
 
@@ -240,9 +241,10 @@ SpreadCartPlugin.prototype.updateItem = function(id,quantity,productId,appearanc
                     basketData.orderListItems[i].quantity);
                     basketData.orderListItems.splice(i,1);
                     cart.putBasketData(basketData);
-                    cart.updateBasketContent();
+
                 }
             }
+            cart.updateBasketContent();
         },
 
         error: this.ajaxError

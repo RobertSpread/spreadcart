@@ -30,8 +30,8 @@
     pointer-events: none;
     position: absolute;
     text-align: center;
-    top: -17px;
-    width: 2em;
+     width: 2em;
+    top:0px;
     z-index: 1;
 }
 
