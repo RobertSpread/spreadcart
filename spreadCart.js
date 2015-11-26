@@ -139,12 +139,12 @@ SpreadCartPlugin.prototype.updateBasketContent = function() {
             jQuery('#basketItem-'+index).append('<div class="basketItemPrice " style="display:inline">'+cart.fixPrice(basketData.orderListItems[index].price)+'</div>');
             if(cart.strings.deleteItem) {
                 jQuery('#basketItemInformation-'+index).append('<div  class="miniBasketButton fa fa-trash"  style="padding-left:0px" id="delete-'+index+'"><a>'+cart.strings.deleteItem+'</a></div>');
-                jQuery('#basketItemInformation-'+index).append('<div  class="miniBasketButton fa fa-trash"  style="padding-left:0px" id="update-'+index+'"><a>make it 100</a></div>');
+                jQuery('#basketItemInformation-'+index).append('<div  style="padding-left:0px"><input type="number" value="'+basketData.orderListItems[index].quantity+'" <i id="updateQuantity-"'+basketData.orderListItems[index].quantity+'" class="fa fa-icon-refresh">Update</i></div>');
                 jQuery('#delete-'+index).on("click",function() {
                     cart.deleteItem(basketData.orderListItems[index].apiId)
 
                 });
-                jQuery('#update-'+index).on("click",function() {
+                jQuery('#updateQuantity-'+index).on("click",function() {alert("sdfsf")
                     cart.updateItem(basketData.orderListItems[index].apiId,"100",basketData.orderListItems[index].apiProductId,basketData.orderListItems[index].appearanceId,basketData.orderListItems[index].sizeId)
 
                 });
@@ -186,10 +186,8 @@ SpreadCartPlugin.prototype.deleteItem = function(id){
             "basketId":basketData.apiBasketId,
             "platformTLD":this.config.tld
         },
-        dataType: "json"
-    });
-
-
+        dataType: "json",
+        success: function(data, status, xhr) {
             for (var i=0; i < basketData.orderListItems.length; i++) {
                 if(basketData.orderListItems[i].apiId===id) {
                     basketData.priceTotal = basketData.priceTotal -
@@ -202,11 +200,14 @@ SpreadCartPlugin.prototype.deleteItem = function(id){
                     cart.putBasketData(basketData);
                     cart.updateBasketContent();
 
+                }
+            };
 
-            }};
 
+        },
 
-
+        error: this.ajaxError
+    });
 
 };
 

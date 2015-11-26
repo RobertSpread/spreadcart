@@ -31,9 +31,9 @@ if($action=="update"){
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HEADER, true);
     $result = curl_exec($ch);
-    var_dump($result);
     curl_close($ch);
-    die();
+    echo json_encode("done");
+//    die();
 
 
 
@@ -52,8 +52,7 @@ if($action=="delete"){
     curl_setopt($ch, CURLOPT_HEADER, true);
     $result = curl_exec($ch);
     curl_close($ch);
-    die();
-    return;
+    echo json_encode("done");
     }
 
 
@@ -69,4 +68,4 @@ function createSprdAuthHeader($method, $url){
     return "Authorization: SprdAuth apiKey=\"".$apiKey."\", data=\"$data\", sig=\"$sig\"";
     }
 
-
+return;
