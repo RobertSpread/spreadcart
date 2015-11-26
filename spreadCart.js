@@ -133,19 +133,18 @@ SpreadCartPlugin.prototype.updateBasketContent = function() {
             jQuery('#basketItem-'+index).append('<img style="width:30%" src="'+cart.config.mediaURL+basketData.orderListItems[index].productId+'?appearanceId='+basketData.orderListItems[index].appearanceId+'"/>');
             jQuery('#basketItem-'+index).append('<div class="basketItemInformation" id="basketItemInformation-'+index+'"></div>');
             jQuery('#basketItemInformation-'+index).append('<div class="basketItemName">'+basketData.orderListItems[index].ptName+'</div>');
-            jQuery('#basketItemInformation-'+index).append('<div class="basketItemQuantity">'+cart.strings.quantity+": "+basketData.orderListItems[index].quantity+'</div>');
+            jQuery('#basketItemInformation-'+index).append('<div class="basketItemQuantity">'+cart.strings.quantity+':<div  style="padding-left:0px"><input id="newQuantity-'+index+'" type="number" value="'+basketData.orderListItems[index].quantity+'"> <i id="updateQuantity-'+index+'" class="fa fa-refresh">Update</i></div></div>');
             jQuery('#basketItemInformation-'+index).append('<div class="basketItemSize">'+cart.strings.size+": "+basketData.orderListItems[index].sizeName+'</div>');
             jQuery('#basketItemInformation-'+index).append('<div class="basketItemColor">'+cart.strings.color+": "+basketData.orderListItems[index].appearanceName+'</div>');
             jQuery('#basketItem-'+index).append('<div class="basketItemPrice " style="display:inline">'+cart.fixPrice(basketData.orderListItems[index].price)+'</div>');
             if(cart.strings.deleteItem) {
                 jQuery('#basketItemInformation-'+index).append('<div  class="miniBasketButton fa fa-trash"  style="padding-left:0px" id="delete-'+index+'"><a>'+cart.strings.deleteItem+'</a></div>');
-                jQuery('#basketItemInformation-'+index).append('<div  style="padding-left:0px"><input type="number" value="'+basketData.orderListItems[index].quantity+'" <i id="updateQuantity-"'+basketData.orderListItems[index].quantity+'" class="fa fa-icon-refresh">Update</i></div>');
                 jQuery('#delete-'+index).on("click",function() {
                     cart.deleteItem(basketData.orderListItems[index].apiId)
 
                 });
-                jQuery('#updateQuantity-'+index).on("click",function() {alert("sdfsf")
-                    cart.updateItem(basketData.orderListItems[index].apiId,"100",basketData.orderListItems[index].apiProductId,basketData.orderListItems[index].appearanceId,basketData.orderListItems[index].sizeId)
+                jQuery('#updateQuantity-'+index).on("click",function() {
+                    cart.updateItem(basketData.orderListItems[index].apiId,jQuery('#newQuantity-'+index).val(),basketData.orderListItems[index].apiProductId,basketData.orderListItems[index].appearanceId,basketData.orderListItems[index].sizeId)
 
                 });
             }
