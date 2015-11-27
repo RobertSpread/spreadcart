@@ -1,6 +1,6 @@
 /**
-Creates a shopping cart icon and a shopping cart at an indicated DIV. Must be configured via spreadCart_config and spreadCart_lang.
-**/
+ Creates a shopping cart icon and a shopping cart at an indicated DIV. Must be configured via spreadCart_config and spreadCart_lang.
+ **/
 
 //// CONSTANTS ////
 
@@ -16,20 +16,22 @@ function SpreadCartPlugin(config, stringsByLanguage) {
     this.config = config;
     this.strings = stringsByLanguage[config.lang];
     this.showDefaultIcon = (this.config.clickTargetID == DEFAULT_ICON_ID);
+    var cart = this;
 
-    if(this.showSpreadCartIcon) {
-        // only update if requested in order to allow this feature to sidestep
-        // possible issues with evolving SpreadShop implementations
-        var cart = this;
-        var fn =  window.onSpreadShopLoaded;
+    cart.buildCustomMiniBasket();
 
-        window.onSpreadShopLoaded = function(e) {
-            fn( e );
+    window.onSpreadShopLoaded = function(e) {
+        cart.buildCustomMiniBasket();
+        if(cart.showDefaultIcon) {
             jQuery('#addToBasket').on("click", function() {
                 cart.updateQuantity();
             });
-        };
-    }
+        }
+    };
+
+    this.insertMiniBasketCaller();
+    if(this.showDefaultIcon)
+        this.updateQuantity();
 }
 
 //// PRESENTATION METHODS ////
@@ -38,12 +40,12 @@ function SpreadCartPlugin(config, stringsByLanguage) {
 SpreadCartPlugin.prototype.insertMiniBasketCaller = function() {
     var clickableID = '#'+this.config.clickTargetID;;
     var cart = this;
-    
+
     if(this.showDefaultIcon) {
         jQuery('#miniBasket').remove();
         jQuery(clickableID).append('<div id="miniBasket" '+
-            'class="fa fa-shopping-cart fa-2x">'+
-            '<div id="totalQuantity"></div></div>');
+        'class="fa fa-shopping-cart fa-2x">'+
+        '<div id="totalQuantity"></div></div>');
         clickableID = '#miniBasket';
     }
 
@@ -56,52 +58,59 @@ SpreadCartPlugin.prototype.buildCustomMiniBasket = function() {
     var basketData = this.getBasketData();
     var cart = this;
 
-    this.insertMiniBasketCaller();
+    if(!$('#emptyMiniBasketContainer').length) {
 
-    jQuery('body').prepend('<div id="miniBasketBackground" style="display: none"></div>');
-    jQuery('body').prepend('<div id="miniBasketContainer" style="display: none"></div>');
-    jQuery('#miniBasketContainer').append('<div id="emptyMiniBasketContainer" style="display: none"></div>');
-    jQuery('#miniBasketContainer').append('<div id="filledMiniBasketContainer" style="display: none"></div>');
-    jQuery('#emptyMiniBasketContainer').append('<div id="miniEmptyNotice">'+this.strings.emptyCart+'</div><div id="miniEmptyOptions"></div></div>');
-    jQuery('#miniEmptyOptions').append('<button class="miniBasketButton" id="miniCloseEmptyCart">'+this.strings.continueShopping+'</button>');
-    jQuery('#filledMiniBasketContainer').append('<div id="miniBasketDetails"></div>');
+        jQuery('body').prepend('<div id="miniBasketBackground" style="display: none"></div>');
+        jQuery('body').prepend('<div id="miniBasketContainer" style="display: none"></div>');
+        jQuery('#miniBasketContainer').append('<div id="emptyMiniBasketContainer" style="display: none"></div>');
+        jQuery('#emptyMiniBasketContainer').append('<div id="miniEmptyNotice">'+this.strings.emptyCart+'</div><div id="miniEmptyOptions"></div></div>');
+        jQuery('#miniEmptyOptions').append('<button class="miniBasketButton" id="miniCloseEmptyCart">'+this.strings.continueShopping+'</button>');
 
-    if(this.strings.information) {
-        jQuery('#miniBasketDetails').append('<div id="miniBasketInfo">'+
-                this.strings.information+'</div>');
+        jQuery('#miniCloseEmptyCart').on("click", function() {
+            cart.showMiniBasket();
+        });
+        jQuery('#miniBasketBackground').on("click", function() {
+            cart.showMiniBasket();
+        });
     }
-    jQuery('#miniBasketDetails').append('<div id="miniBasketContent"></div>');
-    jQuery('#miniBasketDetails').append('<div id="miniBasketFooter"></div>');
-    jQuery('#miniBasketFooter').append('<div class="row"> <div class="miniBasketLabel">'+this.strings.itemsTotal+':</div> <div class="miniBasketLabel miniBasketPrice" id="priceItems"></div> </div>');
-    jQuery('#miniBasketFooter').append('<div class="row"><div class="miniBasketLabel">'+this.strings.shippingFee+':</div> <div class="miniBasketLabel miniBasketPrice" id="priceShipping"></div> </div>');
-    jQuery('#miniBasketFooter').append(' <div class="row topLine total"> <div class="miniBasketLabel">'+this.strings.total+':</div> <div class="miniBasketLabel miniBasketPrice" id="priceTotal"></div> </div><div class="Price>');
-    if(this.strings.vatInformation) {
-        jQuery('#miniBasketFooter').append('<div class="" style="font-size: 60%">'+this.strings.vatInformation+'</div> ');
-    }
-    if(this.strings.shippingInformation) {
-        jQuery('#miniBasketFooter').append('<div class="" style="font-size: 60%">'+this.strings.shippingInformation+'</div>');
-    }
-    jQuery('#miniBasketFooter').append('<meta content="http://schema.org/InStock" itemprop="availability"></div></div>');
-    jQuery('#miniBasketFooter').append('<div id="miniBasketOptions"></div>');
-    jQuery('#miniBasketOptions').append('<button class="miniBasketButton" id="continueShoppingLink">'+this.strings.continueShopping+'</button>');
-    jQuery('#miniBasketOptions').append('<button class="miniBasketButton" id="checkoutLink">'+this.strings.goToCheckout+'</button>');
-    jQuery('#checkoutLink').on("click", function() {
-        window.location = "https://checkout.spreadshirt."+
+
+    if(!$('#filledMiniBasketContainer').length && basketData !== null &&
+        typeof basketData.apiBasketId !== "undefined") {
+
+        jQuery('#miniBasketContainer').append('<div id="filledMiniBasketContainer" style="display: none"></div>');
+        jQuery('#filledMiniBasketContainer').append('<div id="miniBasketDetails"></div>');
+
+        if(this.strings.information) {
+            jQuery('#miniBasketDetails').append('<div id="miniBasketInfo">'+
+            this.strings.information+'</div>');
+        }
+        jQuery('#miniBasketDetails').append('<div id="miniBasketContent"></div>');
+        jQuery('#miniBasketDetails').append('<div id="miniBasketFooter"></div>');
+        jQuery('#miniBasketFooter').append('<div class="row"> <div class="miniBasketLabel">'+this.strings.itemsTotal+':</div> <div class="miniBasketLabel miniBasketPrice" id="priceItems"></div> </div>');
+        jQuery('#miniBasketFooter').append('<div class="row"><div class="miniBasketLabel">'+this.strings.shippingFee+':</div> <div class="miniBasketLabel miniBasketPrice" id="priceShipping"></div> </div>');
+        jQuery('#miniBasketFooter').append(' <div class="row topLine total"> <div class="miniBasketLabel">'+this.strings.total+':</div> <div class="miniBasketLabel miniBasketPrice" id="priceTotal"></div> </div><div class="Price>');
+        if(this.strings.vatInformation) {
+            jQuery('#miniBasketFooter').append('<div class="" style="font-size: 60%">'+this.strings.vatInformation+'</div> ');
+        }
+        if(this.strings.shippingInformation) {
+            jQuery('#miniBasketFooter').append('<div class="" style="font-size: 60%">'+this.strings.shippingInformation+'</div>');
+        }
+        jQuery('#miniBasketFooter').append('<meta content="http://schema.org/InStock" itemprop="availability"></div></div>');
+        jQuery('#miniBasketFooter').append('<div id="miniBasketOptions"></div>');
+        jQuery('#miniBasketOptions').append('<button class="miniBasketButton" id="continueShoppingLink">'+this.strings.continueShopping+'</button>');
+        jQuery('#miniBasketOptions').append('<button class="miniBasketButton" id="checkoutLink">'+this.strings.goToCheckout+'</button>');
+        jQuery('#checkoutLink').on("click", function() {
+            window.location = "https://checkout.spreadshirt."+
             cart.config.tld+"/?basketId="+basketData.apiBasketId+
             "&shopId="+cart.config.shopID+
             "&emptyBasketUrl="+cart.config.returnURL;
-    });
+        });
 
-    jQuery('#miniCloseEmptyCart').on("click", function() {
-        cart.showMiniBasket();
-    });
-    jQuery('#continueShoppingLink').on("click", function() {
-        cart.showMiniBasket();
-    });
-    jQuery('#miniBasketBackground').on("click", function() {
-        cart.showMiniBasket();
-    });
-    this.updateBasketContent();
+        jQuery('#continueShoppingLink').on("click", function() {
+            cart.showMiniBasket();
+        });
+        this.updateBasketContent();
+    }
 };
 
 //function to update the minibasket after removing basket items
@@ -135,7 +144,7 @@ SpreadCartPlugin.prototype.updateBasketContent = function() {
                 });
             }
         });
-    
+
         var basketTotal = basketData.priceTotal;
         var itemTotal = basketData.priceItems;
         var shippingCosts = basketData.priceShipping;
@@ -162,7 +171,7 @@ SpreadCartPlugin.prototype.showMiniBasket = function() {
 SpreadCartPlugin.prototype.deleteItem = function(id){
     var basketData = this.getBasketData();
     var cart = this;
-    
+
     jQuery.ajax({
         url: this.config.proxyPath,
         type:'POST',
@@ -171,25 +180,25 @@ SpreadCartPlugin.prototype.deleteItem = function(id){
             "basketItemId":id,
             "basketId":basketData.apiBasketId,
             "platformTLD":this.config.tld
-            },
+        },
         dataType: "json",
-            
+
         success: function(data, status, xhr) {
             for (var i=0; i < basketData.orderListItems.length; i++) {
                 if(basketData.orderListItems[i].apiId===id) {
                     basketData.priceTotal = basketData.priceTotal -
-                            (basketData.orderListItems[i].price*
-                            basketData.orderListItems[i].quantity);
+                    (basketData.orderListItems[i].price*
+                    basketData.orderListItems[i].quantity);
                     basketData.priceItems = basketData.priceItems -
-                            (basketData.orderListItems[i].price*
-                            basketData.orderListItems[i].quantity);
+                    (basketData.orderListItems[i].price*
+                    basketData.orderListItems[i].quantity);
                     basketData.orderListItems.splice(i,1);
                     cart.putBasketData(basketData);
                     cart.updateBasketContent();
                 }
             }
         },
-        
+
         error: this.ajaxError
     });
 };
@@ -208,7 +217,7 @@ SpreadCartPlugin.prototype.putBasketData = function(basketData) {
 SpreadCartPlugin.prototype.getBasketTotalQuantity = function() {
     var totalQuantity = 0;
     var basketData = this.getBasketData();
-    
+
     if (basketData !== null && basketData.orderListItems !== null) {
         jQuery.each(basketData.orderListItems, function(index) {
             totalQuantity += basketData.orderListItems[index].quantity;
@@ -234,15 +243,15 @@ SpreadCartPlugin.prototype.ajaxError = function(xhr, status, err) {
 
     if (xhr.status) {
         switch(xhr.status) {
-        case 400:
-            msg = xhr.responseText;
-            break;
-        case 404:
-            msg = "proxy service not found";
-            break;
-        case 500:
-            msg = xhr.responseJSON.message;
-            break;
+            case 400:
+                msg = xhr.responseText;
+                break;
+            case 404:
+                msg = "proxy service not found";
+                break;
+            case 500:
+                msg = xhr.responseJSON.message;
+                break;
         }
     }
     alert("error: "+ msg);
@@ -254,8 +263,7 @@ SpreadCartPlugin.prototype.ajaxError = function(xhr, status, err) {
 jQuery(document).ready(function() {
 
     // create cart on ready so cart config can be anywhere in page
-    var cart = new SpreadCartPlugin(spreadCart_config, spreadCart_lang);
-    cart.buildCustomMiniBasket();
+    new SpreadCartPlugin(spreadCart_config, spreadCart_lang);
 });
 
 
