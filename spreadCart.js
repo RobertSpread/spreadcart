@@ -235,16 +235,17 @@ SpreadCartPlugin.prototype.updateItem = function(id,quantity,productId,appearanc
                 if(basketData.orderListItems[i].apiId===id) {
                     basketData.priceTotal = basketData.priceTotal -
                     (basketData.orderListItems[i].price*
-                    basketData.orderListItems[i].quantity);
+                    basketData.orderListItems[i].quantity)+basketData.orderListItems[i].price*quantity;
                     basketData.priceItems = basketData.priceItems -
                     (basketData.orderListItems[i].price*
-                    basketData.orderListItems[i].quantity);
-                    basketData.orderListItems.splice(i,1);
+                    basketData.orderListItems[i].quantity)+basketData.orderListItems[i].price*quantity;
+                    basketData.orderListItems[i].quantity=quantity;
                     cart.putBasketData(basketData);
+                    cart.updateBasketContent();
 
                 }
             }
-            cart.updateBasketContent();
+
         },
 
         error: this.ajaxError
