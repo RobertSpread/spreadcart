@@ -144,7 +144,7 @@ SpreadCartPlugin.prototype.updateBasketContent = function() {
 
                 });
                 jQuery('#updateQuantity-'+index).on("click",function() {
-                    cart.updateItem(basketData.orderListItems[index].apiId,jQuery('#newQuantity-'+index).val(),basketData.orderListItems[index].apiProductId,basketData.orderListItems[index].appearanceId,basketData.orderListItems[index].sizeId)
+                    cart.updateItem(basketData.orderListItems[index].apiId,jQuery('#newQuantity-'+index).val( ),basketData.orderListItems[index].apiProductId,basketData.orderListItems[index].appearanceId,basketData.orderListItems[index].sizeId)
 
                 });
             }
