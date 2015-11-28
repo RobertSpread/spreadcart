@@ -7,7 +7,7 @@
     height: 100%;
     background-color: #22262d;
     opacity: 0.5;
-    }
+}
 
 #basketButton{display: none !important;}
 
@@ -33,20 +33,20 @@
     top: -17px;
     width: 2em;
     z-index: 1;
-    }
+}
 
 .miniBasketLabel{
     box-sizing: border-box;
     display: inline-block;
     width: 50%;
     float:left;
-    }
+}
 
 .miniBasketPrice{
     text-align: right;
 
-    }
-    
+}
+
 #miniBasketContainer{
     padding: 20px;
     z-index: 100001;
@@ -61,8 +61,8 @@
     overflow-x: hidden;
     overflow-y: auto;
     background-color: white;
-    }
-    
+}
+
 #miniEmptyNotice {
     font-size: 16px;
     font-weight: bold;
@@ -82,7 +82,7 @@
     max-height: 30em;
     overflow-y: auto;
     overflow-x: hidden
-    }
+}
 
 .row {width: 100%;
     position: relative;clear: both}
@@ -91,7 +91,7 @@
     border: 1px solid #22262d;
     box-shadow: 0 2px 0 0;
     color: #22262d;
-    }
+}
 
 .basketItemName {
     padding-bottom: 8px;
@@ -105,7 +105,7 @@ button.miniBasketButton {
     text-align: center;
     vertical-align: middle;
     font-size: 14px;
-    }
+}
 
 .miniBasketButton:hover {
     cursor: pointer;
@@ -115,19 +115,19 @@ button.miniBasketButton {
 #continueShoppingLink,
 #checkoutLink {
     box-shadow: 2px 2px 0 0 #bbb;
-    }
- 
+}
+
 #miniCloseEmptyCart,
 #continueShoppingLink {
     background-color: #fff;
     border: 1px solid #000;
     color: #000;
-    }
+}
 
 #continueShoppingLink {
     position: absolute;
     left: 40px;
-    }
+}
 
 #checkoutLink{
     position: absolute;
@@ -135,8 +135,8 @@ button.miniBasketButton {
     background-color: #e2122f;
     border: 1px solid #96122c;
     color: #f6f6f6;
-    }
- 
+}
+
 .basketItemInformation{
     vertical-align: top;
     padding: 20px;
@@ -144,19 +144,19 @@ button.miniBasketButton {
     display: inline-block;
     width: 40%;
     font-size: 100%;
-    }
+}
 
 #miniBasketOptions{
     padding: 20px 0;
     border-top: dashed 2px #eeeeee
-    }
+}
 
 .basketItemPrice{
     padding: 20px;
     float: right;
     font-size: 110%;
-    }
-    
+}
+
 #priceTotal {
     font-weight: bold;
 }
@@ -164,7 +164,7 @@ button.miniBasketButton {
 #miniBasketFooter{
     border-top: 1px solid #eeeeee;
     padding: 20px;
-    }
+}
 
 @media (max-width: 768px) {
     #miniBasketConatiner{

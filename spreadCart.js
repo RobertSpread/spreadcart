@@ -1,6 +1,6 @@
 /**
-Creates a shopping cart icon and a shopping cart at an indicated DIV. Must be configured via spreadCart_config and spreadCart_lang.
-**/
+ Creates a shopping cart icon and a shopping cart at an indicated DIV. Must be configured via spreadCart_config and spreadCart_lang.
+ **/
 
 //// CONSTANTS ////
 
@@ -19,7 +19,7 @@ function SpreadCartPlugin(config, stringsByLanguage) {
     var cart = this;
 
     cart.buildCustomMiniBasket();
-    
+
     window.onSpreadShopLoaded = function(e) {
         cart.buildCustomMiniBasket();
         if(cart.showDefaultIcon) {
@@ -40,12 +40,12 @@ function SpreadCartPlugin(config, stringsByLanguage) {
 SpreadCartPlugin.prototype.insertMiniBasketCaller = function() {
     var clickableID = '#'+this.config.clickTargetID;;
     var cart = this;
-    
+
     if(this.showDefaultIcon) {
         jQuery('#miniBasket').remove();
         jQuery(clickableID).append('<div id="miniBasket" '+
-            'class="fa fa-shopping-cart fa-2x">'+
-            '<div id="totalQuantity"></div></div>');
+        'class="fa fa-shopping-cart fa-2x">'+
+        '<div id="totalQuantity"></div></div>');
         clickableID = '#miniBasket';
     }
 
@@ -57,7 +57,7 @@ SpreadCartPlugin.prototype.insertMiniBasketCaller = function() {
 SpreadCartPlugin.prototype.buildCustomMiniBasket = function() {
     var basketData = this.getBasketData();
     var cart = this;
-    
+
     if(!$('#emptyMiniBasketContainer').length) {
 
         jQuery('body').prepend('<div id="miniBasketBackground" style="display: none"></div>');
@@ -75,14 +75,14 @@ SpreadCartPlugin.prototype.buildCustomMiniBasket = function() {
     }
 
     if(!$('#filledMiniBasketContainer').length && basketData !== null &&
-            typeof basketData.apiBasketId !== "undefined") {
-    
+        typeof basketData.apiBasketId !== "undefined") {
+
         jQuery('#miniBasketContainer').append('<div id="filledMiniBasketContainer" style="display: none"></div>');
         jQuery('#filledMiniBasketContainer').append('<div id="miniBasketDetails"></div>');
 
         if(this.strings.information) {
             jQuery('#miniBasketDetails').append('<div id="miniBasketInfo">'+
-                    this.strings.information+'</div>');
+            this.strings.information+'</div>');
         }
         jQuery('#miniBasketDetails').append('<div id="miniBasketContent"></div>');
         jQuery('#miniBasketDetails').append('<div id="miniBasketFooter"></div>');
@@ -141,7 +141,7 @@ SpreadCartPlugin.prototype.updateBasketContent = function() {
                 });
             }
         });
-    
+
         var basketTotal = basketData.priceTotal;
         var itemTotal = basketData.priceItems;
         var shippingCosts = basketData.priceShipping;
@@ -168,7 +168,7 @@ SpreadCartPlugin.prototype.showMiniBasket = function() {
 SpreadCartPlugin.prototype.deleteItem = function(id){
     var basketData = this.getBasketData();
     var cart = this;
-    
+
     jQuery.ajax({
         url: this.config.proxyPath,
         type:'POST',
@@ -177,25 +177,25 @@ SpreadCartPlugin.prototype.deleteItem = function(id){
             "basketItemId":id,
             "basketId":basketData.apiBasketId,
             "platformTLD":this.config.tld
-            },
+        },
         dataType: "json",
-            
+
         success: function(data, status, xhr) {
             for (var i=0; i < basketData.orderListItems.length; i++) {
                 if(basketData.orderListItems[i].apiId===id) {
                     basketData.priceTotal = basketData.priceTotal -
-                            (basketData.orderListItems[i].price*
-                            basketData.orderListItems[i].quantity);
+                    (basketData.orderListItems[i].price*
+                    basketData.orderListItems[i].quantity);
                     basketData.priceItems = basketData.priceItems -
-                            (basketData.orderListItems[i].price*
-                            basketData.orderListItems[i].quantity);
+                    (basketData.orderListItems[i].price*
+                    basketData.orderListItems[i].quantity);
                     basketData.orderListItems.splice(i,1);
                     cart.putBasketData(basketData);
                     cart.updateBasketContent();
                 }
             }
         },
-        
+
         error: this.ajaxError
     });
 };
@@ -214,7 +214,7 @@ SpreadCartPlugin.prototype.putBasketData = function(basketData) {
 SpreadCartPlugin.prototype.getBasketTotalQuantity = function() {
     var totalQuantity = 0;
     var basketData = this.getBasketData();
-    
+
     if (basketData !== null && basketData.orderListItems !== null) {
         jQuery.each(basketData.orderListItems, function(index) {
             totalQuantity += basketData.orderListItems[index].quantity;
@@ -255,15 +255,15 @@ SpreadCartPlugin.prototype.ajaxError = function(xhr, status, err) {
 
     if (xhr.status) {
         switch(xhr.status) {
-        case 400:
-            msg = xhr.responseText;
-            break;
-        case 404:
-            msg = "proxy service not found";
-            break;
-        case 500:
-            msg = xhr.responseJSON.message;
-            break;
+            case 400:
+                msg = xhr.responseText;
+                break;
+            case 404:
+                msg = "proxy service not found";
+                break;
+            case 500:
+                msg = xhr.responseJSON.message;
+                break;
         }
     }
     alert("error: "+ msg);
