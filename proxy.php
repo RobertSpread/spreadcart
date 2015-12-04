@@ -1,9 +1,10 @@
 <?php
 $basketId=$_POST["basketId"];
 $tld=$_POST["platformTLD"];
-$basketItemId=$_POST["basketItemId"];
 $action=$_POST["operation"];
+$apiKey=$_POST["apiKey"];
 if($action=="update"){
+    $basketItemId=$_POST["basketItemId"];
     $quantity=$_POST["quantity"];
     $productId=$_POST["productId"];
     $sizeId=$_POST["sizeId"];
@@ -40,6 +41,7 @@ if($action=="update"){
 }
 
 if($action=="delete"){
+    $basketItemId=$_POST["basketItemId"];
     $basketItemsURL = "api.spreadshirt.".$tld."/api/v1/baskets/".$basketId."/items/".$basketItemId;
     $header = array();
     $header[] = createSprdAuthHeader("DELETE", $basketItemsURL);
@@ -56,6 +58,32 @@ if($action=="delete"){
     }
 
 
+if($action=="applyCoupon"){
+    $coupon = array("code" => $_POST["couponCode"]);
+    $data_string = json_encode($coupon);
+    $basketCouponsURL = "api.spreadshirt.".$tld."/api/v1/baskets/".$basketId."/coupons/?token=".$apiKey;
+    $header = array();
+    $header[] = createSprdAuthHeader("POST", $basketCouponsURL);
+    $header[] = "Content-Type: application/json";
+    $ch = curl_init($basketCouponsURL);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+    curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($data_string)
+        )
+    );
+    $result = curl_exec($ch);
+    curl_close($ch);
+    var_dump($result);
+
+
+
+
+}
 
 
 

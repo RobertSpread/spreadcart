@@ -16,6 +16,9 @@ var spreadCart_config = {
     // .com,.de,.co.uk or any other supported domain
     tld: "de",
 
+    //api key, needed to apply vouchers
+    apiKey:"0a95d972-cbd2-455c-b5e3-9727d34bc02e",
+    
     // your shop id (the ID number, not the shop name)
     shopID: "0",
 
