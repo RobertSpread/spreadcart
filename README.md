@@ -8,8 +8,8 @@ If you are unable to place a proxy server on your web site, you can still use th
 
 ## How it works:
 
-* SpreadShirt's Spreadshop script defines basket data in the local storage.
-* The plugin reads data from local storage and renders an access point to an order overview, along with a link to the checkout.
+* spreadCart gets the shopping basket ID from SpreadShop via shared local storage.
+* The plugin reads the shopping cart from the online Spreadshirt API and renders an access point to an order overview, along with a link to the checkout.
 * Changes made to the shopping cart are directed to the proxy server on your web site, which then delegates the job to the online SpreadShirt API.
 
 ## How to use:
@@ -28,9 +28,11 @@ You can deploy the plugin in any of the following ways according to how you prio
 
 (1) Deploy the default configuration. The SpreadShop cart is hidden, and the plugin cart is the only means for accessing the shopping cart. The user can delete items from the cart if you also deploy the proxy server. The user cannot otherwise change the quantities of items in the cart.
 
-(2) Enable both the plugin cart and the SpreadShop cart. If the user makes changes in the SpreadShop cart, the item counts reported by the two carts will differ until the user displays the plugin cart again. This is done by adding the following CSS anywhere *after* `spreadCart.css` is loaded: `#basketButton{display: inline-block !important;}`.
+(2) Enable both the plugin cart and the SpreadShop cart. If the user makes changes in the SpreadShop cart, the item counts reported by the two carts will differ until the user displays the plugin cart again, unless the decouple configuration is used. (See `spreadCart_config.js` for the advantages and disadvantages of decoupling.) You can make the SpreadShop cart visible by adding the following CSS anywhere *after* `spreadCart.css` is loaded: `#basketButton{display: inline-block !important;}`.
 
-(3) Enable both carts, but disable the item count on the plugin cart, so the user will not be concerned with apparent quantity discrepancies. This is done by setting `clickTargetID` to an ID other than `spreadCartIcon` and putting this ID on your own custom element. Here's an example custom element: `<a id="mySpreadCartLink">Shopping Cart</a>`. You may also want to induce link-like pointer behavior with the following CSS: `#mySpreadCartLink:hover {cursor:pointer;}`. In addition, to show the SpreadShop cart, add the following CSS anywhere *after* `spreadCart.css` is loaded: `#basketButton{display: inline-block !important;}`. 
+(3) [discouraged] Enable both carts, but disable the item count on the plugin cart, so the user will not be concerned with apparent quantity discrepancies. This is done by setting `clickTargetID` to an ID other than `spreadCartIcon` and putting this ID on your own custom element. Here's an example custom element: `<a id="mySpreadCartLink">Shopping Cart</a>`. You may also want to induce link-like pointer behavior with the following CSS: `#mySpreadCartLink:hover {cursor:pointer;}`. In addition, to show the SpreadShop cart, add the following CSS anywhere *after* `spreadCart.css` is loaded: `#basketButton{display: inline-block !important;}`.
+
+This plugin currently does not honor the registration of a coupon code from within the embedded SpreadShop, so it is probably best to either turn off coupon headers from the Spreadshirt shop admin or to hide the header via the CSS `#sprd-header .promo-header {display:none;}`. To activate a coupon, the user must do so from within the Spreadshirt checkout page.
 
 ## Deploying a Proxy Server
 
