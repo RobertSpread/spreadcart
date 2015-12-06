@@ -96,9 +96,11 @@ SpreadCartPlugin.prototype.buildCustomMiniBasket = function() {
             jQuery('#miniBasketFooter').append('<div class="" style="font-size: 60%">'+this.strings.shippingInformation+'</div>');
         }
         jQuery('#miniBasketFooter').append('<meta content="http://schema.org/InStock" itemprop="availability"></div></div>');
+        jQuery('#miniBasketFooter').append('<div class="couponInputWrapper"><input type="text" id="couponCode"/><button class="miniBasketButton" id="applyCoupon">'+this.strings.applyCoupon+'</button></div>');
         jQuery('#miniBasketFooter').append('<div id="miniBasketOptions"></div>');
         jQuery('#miniBasketOptions').append('<button class="miniBasketButton" id="continueShoppingLink">'+this.strings.continueShopping+'</button>');
         jQuery('#miniBasketOptions').append('<button class="miniBasketButton" id="checkoutLink">'+this.strings.goToCheckout+'</button>');
+
         jQuery('#checkoutLink').on("click", function() {
             window.location = "https://checkout.spreadshirt."+
             cart.config.tld+"/?basketId="+basketData.apiBasketId+
@@ -108,6 +110,9 @@ SpreadCartPlugin.prototype.buildCustomMiniBasket = function() {
 
         jQuery('#continueShoppingLink').on("click", function() {
             cart.showMiniBasket();
+        });
+        jQuery('#applyCoupon').on("click", function() {
+            cart.applyCoupon(jQuery('#couponCode').val());
         });
         this.updateBasketContent();
     }
@@ -170,6 +175,32 @@ SpreadCartPlugin.prototype.showMiniBasket = function() {
 };
 
 //// SERVICE METHODS ////
+
+//applies coupon code to the basket
+SpreadCartPlugin.prototype.applyCoupon = function(couponCode) {
+    var basketData = this.getBasketData();
+    var cart = this;
+    var request=jQuery.ajax({
+        url: this.config.proxyPath,
+        type:'POST',
+        data:{
+            "operation": "applyCoupon",
+            "couponCode": couponCode,
+            "apiKey":this.config.apiKey,
+            "basketId":basketData.apiBasketId,
+            "platformTLD":this.config.tld
+        },
+        dataType: "json",
+        success: function(data, status, xhr) {
+        },
+
+        error: this.ajaxError
+    });
+
+
+
+
+};
 
 //deletes selected item from basket. needs proxy.php to delete it from the API basket. also updates basket in local storage that is needed to display the basket
 SpreadCartPlugin.prototype.deleteItem = function(id){

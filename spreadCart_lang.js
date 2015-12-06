@@ -40,7 +40,8 @@ spreadCart_lang.de = {
     total: "Gesamtbetrag",
     continueShopping: "Weiter Einkaufen",
     goToCheckout: "Zum Checkout",
-    emptyCart: "Ihren Einkaufswagen ist leer"
+    emptyCart: "Ihren Einkaufswagen ist leer",
+    applyCoupon:"Gutschein einl&ouml;sen"
 };
 
 spreadCart_lang.en_us = {
@@ -57,6 +58,7 @@ spreadCart_lang.en_us = {
     total: "Total",
     continueShopping: "Continue Shopping",
     goToCheckout: "Checkout",
-    emptyCart: "Your shopping cart is empty"
+    emptyCart: "Your shopping cart is empty",
+    applyCoupon:"Apply Coupon"
 };
 
