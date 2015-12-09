@@ -6,9 +6,19 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var path = require('path');
 
+//// MODULE VARIABLES ////
+
+var isOffline = false;
+
 //// HTTP PROTOCOL STACK ////
 
 var app = express();
+app.use(function(req, res, next) {
+    if(isOffline)
+        res.sendFile(__dirname +'/public/offline.html');
+    else
+        next();
+});
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -26,7 +36,9 @@ app.use(function(req, res, next) {
 });
 
 app.use(function(err, req, res, next) {
-    console.error('error: %s %s %j', req.originalUrl, err.message, err);
+    var utc = new Date().toISOString().replace('T', ' ').substr(0, 19);
+    console.error('%sutc error: %s [%s] %j',
+            utc, req.originalUrl, err.message, err);
     res.status(err.status || 500);
     
     if (req.xhr)
@@ -46,6 +58,10 @@ if (process.argv.length >= 3) {
         exit();
     }
     port = parseInt(process.argv[2]);
+}
+if (process.argv.length >= 4) {
+    if (process.argv[3] === '-offline')
+        isOffline = true;
 }
     
 var server = app.listen(port, function() {

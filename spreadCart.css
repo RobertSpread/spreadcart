@@ -22,6 +22,7 @@
 #totalQuantity{
     background: #e2122f none repeat scroll 0 0;
     border-radius: 50%;
+    font-family: Arial, Helvetica, sans-serif;
     color: white;
     font-size: 9px;
     font-weight: 700;
@@ -44,8 +45,7 @@
 
 .miniBasketPrice{
     text-align: right;
-
-}
+    }
 
 #miniBasketContainer{
     padding: 20px;
@@ -85,7 +85,8 @@
 }
 
 .row {width: 100%;
-    position: relative;clear: both}
+    position: relative;
+    clear: both}
 .viewBasketDetails{
     background-color: #f6f6f6;
     border: 1px solid #22262d;
@@ -95,6 +96,12 @@
 
 .basketItemName {
     padding-bottom: 8px;
+}
+
+.basketItemName,
+.basketItemPrice,
+.miniBasketLabel {
+    font-size: 110%;
 }
 
 button.miniBasketButton {
@@ -113,7 +120,7 @@ button.miniBasketButton {
 
 #miniCloseEmptyCart,
 #continueShoppingLink,
-#checkoutLink {
+#miniBasketCheckoutLink {
     box-shadow: 2px 2px 0 0 #bbb;
 }
 
@@ -129,7 +136,7 @@ button.miniBasketButton {
     left: 40px;
 }
 
-#checkoutLink{
+#miniBasketCheckoutLink {
     position: absolute;
     right: 40px;
     background-color: #e2122f;
@@ -154,16 +161,23 @@ button.miniBasketButton {
 .basketItemPrice{
     padding: 20px;
     float: right;
-    font-size: 110%;
+    }
+    
+#miniBasketFooter{
+    border-top: 1px solid #eeeeee;
+    padding: 20px;
+    }
+    
+#miniBasketShippingLine .miniBasketLabel {
+    padding-bottom: 8px;
+}
+    
+.miniBasketNote {
+    font-size: 80%;
 }
 
 #priceTotal {
     font-weight: bold;
-}
-
-#miniBasketFooter{
-    border-top: 1px solid #eeeeee;
-    padding: 20px;
 }
 
 @media (max-width: 768px) {
