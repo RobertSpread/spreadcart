@@ -319,12 +319,10 @@ SpreadCartPlugin.prototype.getCheckoutURL = function() {
 
 SpreadCartPlugin.prototype.requestReadBasket = function(nextFunc) {
     var plugin = this;
-    
+
     this.proxyRequest("read", this.basketID, {},
         function(data, status, xhr) {
-
-            var basketDoc = jQuery.parseXML(xhr.responseJSON.xml);
-
+            var basketDoc = jQuery.parseXML(xhr.responseJSON);
             // update for successfully read (non-empty) basket
             if(jQuery(basketDoc).find('basketItem').length) {
                 try {
