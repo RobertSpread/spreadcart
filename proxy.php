@@ -53,7 +53,7 @@ if($action=="read"){
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $result = curl_exec($ch);
     curl_close($ch);
-    echo json_encode($result);
+    echo '{"xml":'.json_encode($result).'}';
 }
 
 
