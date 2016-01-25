@@ -36,9 +36,9 @@ app.use(function(req, res, next) {
 });
 
 app.use(function(err, req, res, next) {
-    var utc = new Date().toISOString().replace('T', ' ').substr(0, 19);
+
     console.error('%sutc error: %s [%s] %j',
-            utc, req.originalUrl, err.message, err);
+            getUTCTimeString(), req.originalUrl, err.message, err);
     res.status(err.status || 500);
     
     if (req.xhr)
@@ -48,6 +48,12 @@ app.use(function(err, req, res, next) {
         res.send("<h1><center>"+ message +"</center></h1");
     }
 });
+
+//// UTILITY METHODS ////
+
+function getUTCTimeString() {
+    return new Date().toISOString().replace('T', ' ').substr(0, 19);
+}
 
 //// LAUNCH SERVER ////
 
@@ -65,5 +71,6 @@ if (process.argv.length >= 4) {
 }
     
 var server = app.listen(port, function() {
-    console.log('Listening on port ' + server.address().port);
+    console.log(getUTCTimeString() +'utc - Listening on port '+
+            server.address().port);
 });

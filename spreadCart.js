@@ -164,7 +164,7 @@ SpreadCartPlugin.prototype.buildCartItems = function() {
         var itemDivID = 'basketItem-'+ basketItem.id;
         jQuery('#miniBasketContent').append('<div class="basketItem" id="'+ itemDivID +'"></div>');
         var itemDiv = jQuery('#'+ itemDivID);
-        itemDiv.append('<img style="width:30%" src="'+ plugin.config.mediaURL + basketItem.element.id +'?appearanceId='+  basketItem.element.properties['appearance'] +'"/>');
+        itemDiv.append('<img style="width:30%" src="'+ plugin.config.mediaURL + basketItem.element.properties['product'] +'?appearanceId='+  basketItem.element.properties['appearance'] +'"/>');
         
         var infoDivID = 'basketItemInformation-'+ basketItem.id;
         itemDiv.append('<div class="basketItemInformation" id="'+ infoDivID +'"></div>');
@@ -289,7 +289,9 @@ SpreadCartPlugin.prototype.loadBasket = function(nextFunc) {
     if(shopBasketJSON !== null && shopBasketJSON !== "") {
         var shopBasket = JSON.parse(shopBasketJSON);
         
-        if(shopBasket !== null) {
+        if(shopBasket !== null && typeof shopBasket.apiBasketId !== "undefined"
+                && shopBasket.apiBasketId !== null)
+        {
             this.basketID = shopBasket.apiBasketId;
             this.requestReadBasket(nextFunc);
         }
@@ -298,7 +300,7 @@ SpreadCartPlugin.prototype.loadBasket = function(nextFunc) {
     // empty the basket if we ever lose the SpreadShop basket ID
     if(this.basketID === null) {
         this.basket = null;
-        nextFunc();
+        nextFunc(false);
     }
 };
 
@@ -324,6 +326,7 @@ SpreadCartPlugin.prototype.requestReadBasket = function(nextFunc) {
         function(data, status, xhr) {
 
             var basketDoc = jQuery.parseXML(xhr.responseJSON.xml);
+            // alert(xhr.responseJSON.xml);
 
             // update for successfully read (non-empty) basket
             if(jQuery(basketDoc).find('basketItem').length) {
