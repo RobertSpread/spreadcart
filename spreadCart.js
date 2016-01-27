@@ -1,6 +1,6 @@
 /******************************************************************************
-SpreadCartPlugin is a shopping cart for SpreadShop that can be shared across multiple pages of a hosting web site. It creates a shopping cart icon at the indicated div and shows the number of items in the cart in a red bubble, although a user-provided clickable element can be used instead. It is configured via spreadCart_config and spreadCart_lang.
-******************************************************************************/
+ SpreadCartPlugin is a shopping cart for SpreadShop that can be shared across multiple pages of a hosting web site. It creates a shopping cart icon at the indicated div and shows the number of items in the cart in a red bubble, although a user-provided clickable element can be used instead. It is configured via spreadCart_config and spreadCart_lang.
+ ******************************************************************************/
 
 //// CONSTANTS ////
 
@@ -37,14 +37,14 @@ function SpreadCartPlugin(config, stringsByLanguage) {
     this.loadBasket(function(loaded) {
         plugin.displayTotalQuantity(); // display 0 if no basket
     });
-    
+
     if(this.pageHasSpreadShop() && this.showDefaultIcon) {
-    
+
         if(this.config.decouple) {
             jQuery('*').bind("mousedown.clickmap", function(evt) {
                 plugin.clickUpdateListener();
             });
-        }    
+        }
         else
             this.installSpreadShopMonitor();
     }
@@ -79,7 +79,7 @@ SpreadCartPlugin.prototype.installSpreadShopMonitor = function() {
 SpreadCartPlugin.prototype.insertMiniBasketCaller = function() {
     var clickableID = '#'+this.config.clickTargetID;;
     var plugin = this;
-    
+
     if(this.showDefaultIcon) {
         jQuery('#miniBasket').remove();
         jQuery(clickableID).append('<div id="miniBasket" '+
@@ -99,14 +99,14 @@ SpreadCartPlugin.prototype.buildCustomMiniBasket = function() {
     var plugin = this;
 
     // build the dimmed basket background
-    
+
     jQuery('body').prepend('<div id="miniBasketBackground" style="display: none"></div>');
     jQuery('#miniBasketBackground').on("click", function() {
         plugin.closeMiniBasket();
     });
 
     // build the empty basket
-    
+
     jQuery('body').prepend('<div id="miniBasketContainer" style="display: none"></div>');
     jQuery('#miniBasketContainer').append('<div id="emptyMiniBasketContainer" style="display: none"></div>');
     jQuery('#emptyMiniBasketContainer').append('<div id="miniEmptyNotice">'+this.strings.emptyCart+'</div><div id="miniEmptyOptions"></div></div>');
@@ -115,7 +115,7 @@ SpreadCartPlugin.prototype.buildCustomMiniBasket = function() {
     jQuery('#miniCloseEmptyCart').on("click", function() {
         plugin.closeMiniBasket();
     });
-    
+
     // build the filled basket
 
     jQuery('#miniBasketContainer').append('<div id="filledMiniBasketContainer" style="display: none"></div>');
@@ -123,15 +123,15 @@ SpreadCartPlugin.prototype.buildCustomMiniBasket = function() {
 
     if(this.strings.information) {
         jQuery('#miniBasketDetails').append('<div id="miniBasketInfo">'+
-                this.strings.information+'</div>');
+        this.strings.information+'</div>');
     }
     jQuery('#miniBasketDetails').append('<div id="miniBasketContent"></div>');
-    
+
     jQuery('#miniBasketDetails').append('<div id="miniBasketFooter"></div>');
     jQuery('#miniBasketFooter').append('<div class="row"> <div class="miniBasketLabel">'+this.strings.itemsTotal+':</div> <div class="miniBasketLabel miniBasketPrice" id="priceItems"></div> </div>');
     jQuery('#miniBasketFooter').append('<div class="row" id="miniBasketShippingLine"><div class="miniBasketLabel">'+this.strings.shippingFee+':</div> <div class="miniBasketLabel miniBasketPrice" id="priceShipping"></div> </div>');
     jQuery('#miniBasketFooter').append(' <div id="miniBasketTotalLine" class="row"> <div class="miniBasketLabel">'+this.strings.total+':</div> <div class="miniBasketLabel miniBasketPrice" id="priceTotal"></div> <div </div>');
-    
+
     if(this.strings.vatInformation) {
         jQuery('#miniBasketFooter').append('<div class="miniBasketNote">'+this.strings.vatInformation+'</div> ');
     }
@@ -139,7 +139,7 @@ SpreadCartPlugin.prototype.buildCustomMiniBasket = function() {
         jQuery('#miniBasketFooter').append('<div class="miniBasketNote">'+this.strings.shippingInformation+'</div>');
     }
     jQuery('#miniBasketFooter').append('<meta content="http://schema.org/InStock" itemprop="availability"></div></div>');
-    
+
     jQuery('#miniBasketFooter').append('<div id="miniBasketOptions"></div>');
     jQuery('#miniBasketOptions').append('<button class="miniBasketButton" id="continueShoppingLink">'+this.strings.continueShopping+'</button>');
     jQuery('#miniBasketOptions').append('<button class="miniBasketButton" id="miniBasketCheckoutLink">'+this.strings.goToCheckout+'</button>');
@@ -160,12 +160,12 @@ SpreadCartPlugin.prototype.buildCartItems = function() {
     jQuery('#miniBasketContent').html(" ");
     jQuery.each(this.basket.basketItems, function(itemIndex){
         var basketItem = plugin.basket.basketItems[itemIndex];
-        
+
         var itemDivID = 'basketItem-'+ basketItem.id;
         jQuery('#miniBasketContent').append('<div class="basketItem" id="'+ itemDivID +'"></div>');
         var itemDiv = jQuery('#'+ itemDivID);
-        itemDiv.append('<img style="width:30%" src="'+ plugin.config.mediaURL + basketItem.element.id +'?appearanceId='+  basketItem.element.properties['appearance'] +'"/>');
-        
+        itemDiv.append('<img style="width:30%" src="'+ plugin.config.mediaURL + basketItem.element.properties['product'] +'?appearanceId='+  basketItem.element.properties['appearance'] +'"/>');
+
         var infoDivID = 'basketItemInformation-'+ basketItem.id;
         itemDiv.append('<div class="basketItemInformation" id="'+ infoDivID +'"></div>');
         var infoDiv = jQuery('#'+ infoDivID);
@@ -174,7 +174,7 @@ SpreadCartPlugin.prototype.buildCartItems = function() {
         infoDiv.append('<div class="basketItemSize">'+ plugin.strings.size +": "+ basketItem.element.properties['sizeLabel'] +'</div>');
         infoDiv.append('<div class="basketItemColor">'+ plugin.strings.color +": "+ basketItem.element.properties['appearanceLabel'] +'</div>');
         itemDiv.append('<div class="basketItemPrice " style="display:inline">'+ plugin.formatPrice(plugin.basket.getUndiscountedItemCost(itemIndex)) +'</div>');
-        
+
         if(plugin.strings.deleteItem) {
             infoDiv.append('<div  class="miniBasketButton fa fa-trash"  style="padding-left:0px" id="delete-'+ basketItem.id +'"><a>'+ plugin.strings.deleteItem +'</a></div>');
             jQuery('#delete-'+ basketItem.id).on("click", function() {
@@ -186,7 +186,7 @@ SpreadCartPlugin.prototype.buildCartItems = function() {
 
 SpreadCartPlugin.prototype.displayTotalQuantity = function() {
     var totalQuantity = this.getBasketTotalQuantity();
-    
+
     if(this.config.stateHandler !== null) {
         if(totalQuantity == 0) {
             if(this.lastTotalQuantity > 0)
@@ -196,7 +196,7 @@ SpreadCartPlugin.prototype.displayTotalQuantity = function() {
             this.config.stateHandler(this.getCheckoutURL());
     }
     this.lastTotalQuantity = totalQuantity;
-    
+
     if(this.showDefaultIcon)
         jQuery('#totalQuantity').html(totalQuantity);
 };
@@ -211,11 +211,11 @@ SpreadCartPlugin.prototype.updateCartTotals = function() {
     else {
         jQuery('#emptyMiniBasketContainer').css({"display":"none"})
         jQuery('#filledMiniBasketContainer').css({"display":"inline"});
-        
+
         var itemTotal = this.basket.getUndiscountedItemSubtotal();
         var shippingCosts = this.basket.getShippingCost();
         var priceTotal = this.basket.getUndiscountedTotal();
-        
+
         jQuery('#priceItems').html(this.formatPrice(itemTotal));
         jQuery('#priceShipping').html(this.formatPrice(shippingCosts));
         jQuery('#priceTotal').html(this.formatPrice(priceTotal));
@@ -253,8 +253,8 @@ SpreadCartPlugin.prototype.clickUpdateListener = function() {
 
     this.updateTriesLeft = this.config.updateTries;
     this.updateTimer = setTimeout(function() {
-            plugin.tryUpdatingQuantity();
-        }, this.config.updateMillis);
+        plugin.tryUpdatingQuantity();
+    }, this.config.updateMillis);
 };
 
 SpreadCartPlugin.prototype.tryUpdatingQuantity = function() {
@@ -267,8 +267,8 @@ SpreadCartPlugin.prototype.tryUpdatingQuantity = function() {
             else {
                 if(--plugin.updateTriesLeft > 0) {
                     plugin.updateTimer = setTimeout(function() {
-                            plugin.tryUpdatingQuantity();
-                        }, plugin.config.updateMillis);
+                        plugin.tryUpdatingQuantity();
+                    }, plugin.config.updateMillis);
                 }
             }
         }
@@ -285,20 +285,22 @@ SpreadCartPlugin.prototype.loadBasket = function(nextFunc) {
     var shopBasketJSON = localStorage.getItem("mmBasket");
     var plugin = this;
     this.basketID = null;
-    
+
     if(shopBasketJSON !== null && shopBasketJSON !== "") {
         var shopBasket = JSON.parse(shopBasketJSON);
-        
-        if(shopBasket !== null) {
+
+        if(shopBasket !== null && typeof shopBasket.apiBasketId !== "undefined"
+            && shopBasket.apiBasketId !== null)
+        {
             this.basketID = shopBasket.apiBasketId;
             this.requestReadBasket(nextFunc);
         }
     }
-    
+
     // empty the basket if we ever lose the SpreadShop basket ID
     if(this.basketID === null) {
         this.basket = null;
-        nextFunc();
+        nextFunc(false);
     }
 };
 
@@ -310,9 +312,9 @@ SpreadCartPlugin.prototype.getBasketTotalQuantity = function() {
 
 SpreadCartPlugin.prototype.getCheckoutURL = function() {
     return "https://checkout.spreadshirt."+
-            this.config.tld +"/?basketId="+ this.basketID +
-            "&shopId="+ this.config.shopID +
-            "&emptyBasketUrl="+ encodeURIComponent(this.config.returnURL);
+        this.config.tld +"/?basketId="+ this.basketID +
+        "&shopId="+ this.config.shopID +
+        "&emptyBasketUrl="+ encodeURIComponent(this.config.returnURL);
 }
 
 //// SERVICE METHODS ////
@@ -322,15 +324,18 @@ SpreadCartPlugin.prototype.requestReadBasket = function(nextFunc) {
 
     this.proxyRequest("read", this.basketID, {},
         function(data, status, xhr) {
+
             var basketDoc = jQuery.parseXML(xhr.responseJSON.xml);
+            // alert(xhr.responseJSON.xml);
+
             // update for successfully read (non-empty) basket
             if(jQuery(basketDoc).find('basketItem').length) {
                 try {
                     plugin.basket = new SpreadCartBasket(basketDoc);
-                }        
+                }
                 catch(e) {
                     if(e instanceof ElementNotFoundException ||
-                            e instanceof UnexpectedValueException)
+                        e instanceof UnexpectedValueException)
                     {
                         alert(e.message);
                         // don't null the basket, in case it's temporary
@@ -340,7 +345,7 @@ SpreadCartPlugin.prototype.requestReadBasket = function(nextFunc) {
                 }
                 nextFunc(true);
             }
-            
+
             // detect basket that becomes invalid after purchase
             else {
                 plugin.basketID = null;
@@ -362,7 +367,7 @@ SpreadCartPlugin.prototype.requestDeleteItem = function(itemID, itemDivID){
             if(itemDiv.length) // if not already lost via loadBasket()
                 itemDiv.remove();
             plugin.basketChanged = true;
-                
+
             // reread the basket to get new shipping cost, etc.
             plugin.requestReadBasket(function(loaded) {
                 plugin.displayTotalQuantity();
@@ -374,7 +379,7 @@ SpreadCartPlugin.prototype.requestDeleteItem = function(itemID, itemDivID){
 //// SUPPORT METHODS ////
 
 SpreadCartPlugin.prototype.proxyRequest = function(action, basketID,
-        requestData, successFunc) {
+                                                   requestData, successFunc) {
 
     var allRequestData = {
         "action": action,
@@ -385,7 +390,7 @@ SpreadCartPlugin.prototype.proxyRequest = function(action, basketID,
     var params = Object.keys(requestData);
     for(var i=0; i < params.length; ++i)
         allRequestData[params[i]] = requestData[params[i]];
-    
+
     jQuery.ajax({
         url: this.config.proxyPath,
         type:'POST',
@@ -430,8 +435,8 @@ jQuery(document).ready(function() {
 });
 
 /******************************************************************************
-SpreadCartBasket is a representation of the data in a SpreadShop shopping cart. It is initialized with the XML returned via the API for reading the cart.
-******************************************************************************/
+ SpreadCartBasket is a representation of the data in a SpreadShop shopping cart. It is initialized with the XML returned via the API for reading the cart.
+ ******************************************************************************/
 
 /** constructor. caller provides a jQuery object basketDoc representing the parsed XML document from the Spreadshirt API. caller must catch exceptions **/
 
@@ -451,7 +456,7 @@ function SpreadCartBasket(basketDoc) {
     // . price (priceInfo)
     // priceItems (priceInfo) - total without shipping, without discounts
     // priceTotal (priceInfo) - total with shipping and discounts
-    
+
     // each priceInfo is structured as follows:
     // . vatExcluded (float)
     // . vatIncluded (float)
@@ -460,13 +465,13 @@ function SpreadCartBasket(basketDoc) {
 
     var $basket = jQuery(basketDoc).children('basket');
     var basket = this;
-    
+
     // load basket-specific information
-    
+
     this.id = basket.stringAttr($basket, 'basket', 'id');
-    
+
     // load each basket item, if any
-    
+
     this.basketItems = [];
     $basket.find('basketItem').each(function() {
         var $item = jQuery(this);
@@ -474,7 +479,7 @@ function SpreadCartBasket(basketDoc) {
         item.id = basket.stringAttr($item, "basketItem", 'id');
         item.description = basket.stringElem($item, 'description');
         item.quantity = basket.intElem($item, 'quantity');
-        
+
         var $element = basket.getChildren($item, 'element');
         var element = item.element = {};
         element.id = basket.stringAttr($element, 'element', 'id');
@@ -483,22 +488,22 @@ function SpreadCartBasket(basketDoc) {
             var $property = jQuery(this);
             element.properties[$property.attr('key')] = $property.text();
         });
-        
+
         item.priceItem = basket.getPriceInfo($item, 'priceItem');
         item.price = basket.getPriceInfo($item, 'price');
-        
+
         basket.basketItems.push(item);
     });
-    
+
     // load the shipping information
-    
+
     var $shipping = basket.getChildren($basket, 'shipping');
     var shipping = basket.shipping = {};
     shipping.priceItem = basket.getPriceInfo($shipping, 'priceItem');
     shipping.price = basket.getPriceInfo($shipping, 'price');
-    
+
     // load the shopping cart totals
-    
+
     basket.priceItems = basket.getPriceInfo($basket, 'priceItems');
     basket.priceTotal = basket.getPriceInfo($basket, 'priceTotal');
 }
@@ -590,7 +595,7 @@ SpreadCartBasket.prototype.getPriceInfo = function(parent, elemName) {
     priceInfo.vatExcluded = this.floatElem($priceInfo, 'vatExcluded');
     priceInfo.vatIncluded = this.floatElem($priceInfo, 'vatIncluded');
     priceInfo.display = this.floatElem($priceInfo, 'display');
-    
+
     var $vat = $priceInfo.children('vat');
     if ($vat.length !== 0)
         priceInfo.vat = this.toFloat('vat', $vat.text());
@@ -621,5 +626,5 @@ function ElementNotFoundException(elemName) {
 
 function UnexpectedValueException(elemName, stringValue) {
     this.message = "Unexpected value in element <"+ elemName +">: "+
-            stringValue;
+    stringValue;
 }

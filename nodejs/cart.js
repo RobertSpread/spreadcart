@@ -19,14 +19,14 @@ router.post('/', function(req, res, next) {
         return next(new Error("missing action"));
 
     switch(req.body.action) {
-    case "read":
-        proxyReadBasket(req.body, res, next);
-        break;
-    case "delete":
-        proxyDeleteFromBasket(req.body, res, next);
-        break;
-    default:
-        next(new Error("unknown action"));
+        case "read":
+            proxyReadBasket(req.body, res, next);
+            break;
+        case "delete":
+            proxyDeleteFromBasket(req.body, res, next);
+            break;
+        default:
+            next(new Error("unknown action"));
     }
 });
 
@@ -42,7 +42,7 @@ function proxyReadBasket(params, res, next) {
             return next(err);
         throw err;
     }
-    
+
     readBasket(params.platformTLD, params.basketId, res, next);
 }
 
@@ -57,9 +57,9 @@ function proxyDeleteFromBasket(params, res, next) {
             return next(err);
         throw err;
     }
-    
+
     deleteFromBasket(params.platformTLD, params.basketId, params.basketItemId,
-            res, next);
+        res, next);
 }
 
 //// API SERVICES ////
@@ -78,27 +78,27 @@ function deleteFromBasket(tld, basketID, itemID, res, next) {
 //// HTTP SUPPORT ////
 
 function httpGet(actionName, url, clientRes, next) {
-    
+
     request.get(url, {
-        "Authorization": getAuthHeader("GET", url),
-        "Content-Type": API_CONTENT_TYPE
-    },
-    function(err, apiRes, body) {
-        if (err) return next(failureResponse(actionName, err, apiRes));
-        successResponse(actionName, clientRes, {xml: body});
-    });
+            "Authorization": getAuthHeader("GET", url),
+            "Content-Type": API_CONTENT_TYPE
+        },
+        function(err, apiRes, body) {
+            if (err) return next(failureResponse(actionName, err, apiRes));
+            successResponse(actionName, clientRes, {xml: body});
+        });
 }
 
 function httpDelete(actionName, url, clientRes, next) {
-    
+
     request.del(url, {
-        "Authorization": getAuthHeader("DELETE", url),
-        "Content-Type": API_CONTENT_TYPE
-    },
-    function(err, apiRes) {
-        if (err) return next(failureResponse(actionName, err, apiRes));
-        successResponse(actionName, clientRes, {});
-    });
+            "Authorization": getAuthHeader("DELETE", url),
+            "Content-Type": API_CONTENT_TYPE
+        },
+        function(err, apiRes) {
+            if (err) return next(failureResponse(actionName, err, apiRes));
+            successResponse(actionName, clientRes, {});
+        });
 }
 
 function getAuthHeader(method, url) {
@@ -108,9 +108,9 @@ function getAuthHeader(method, url) {
     var apiData = method +" "+ url +" "+ time;
     var hashData = apiData +" "+ secret;
     var sig = crypto.createHash('sha1').update(hashData).digest('hex');
-    
+
     return 'AprdAuth apiKey="'+ apiKey +'", data="'+ apiData +
-                '", sig="'+ sig +'"';
+        '", sig="'+ sig +'"';
 }
 
 function getBasketURL(tld, basketID) {
@@ -124,7 +124,7 @@ function successResponse(action, res, data) {
 
 function failureResponse(action, err, res) {
     return new Error(action +" failed - status: "+ err.status +
-                    ", message: "+ err.message);
+    ", message: "+ err.message);
 }
 
 //// VALIDATION SUPPORT ////
@@ -132,7 +132,7 @@ function failureResponse(action, err, res) {
 function validateBasketID(params) {
     // console.log(JSON.stringify(params));
     if (!isValidParam(params.platformTLD, 3) ||
-            !isValidParam(params.basketId, 100)) {
+        !isValidParam(params.basketId, 100)) {
         throw new Error("invalid basket");
     }
 }
@@ -145,7 +145,7 @@ function validateBasketItemID(params) {
 
 function isValidParam(str, maxLen) {
     return (typeof str == "string" &&
-                /^[-a-z0-9]*$/i.test(str) && str.length <= maxLen);
+    /^[-a-z0-9]*$/i.test(str) && str.length <= maxLen);
 }
 
 module.exports = router;
