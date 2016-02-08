@@ -38,7 +38,11 @@ app.use(function(req, res, next) {
 app.use(function(err, req, res, next) {
 
     console.error('%sutc error: %s [%s] %j',
+<<<<<<< HEAD
+            getUTCTimeString(), req.originalUrl, err.message, err);
+=======
         getUTCTimeString(), req.originalUrl, err.message, err);
+>>>>>>> refs/remotes/origin/master
     res.status(err.status || 500);
 
     if (req.xhr)
@@ -72,5 +76,9 @@ if (process.argv.length >= 4) {
 
 var server = app.listen(port, function() {
     console.log(getUTCTimeString() +'utc - Listening on port '+
+<<<<<<< HEAD
+            server.address().port);
+=======
     server.address().port);
+>>>>>>> refs/remotes/origin/master
 });

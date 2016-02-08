@@ -53,7 +53,12 @@ if($action=="read"){
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $result = curl_exec($ch);
     curl_close($ch);
+<<<<<<< HEAD
+    header('Content-type:application/json; charset=utf-8');
+    echo json_encode(array('xml' => $result));
+=======
     echo '{"xml":'.json_encode($result).'}';
+>>>>>>> refs/remotes/origin/master
 }
 
 
