@@ -325,7 +325,11 @@ SpreadCartPlugin.prototype.requestReadBasket = function(nextFunc) {
     this.proxyRequest("read", this.basketID, {},
         function(data, status, xhr) {
 
+<<<<<<< HEAD
             var basketDoc = jQuery.parseXML(data.xml);
+=======
+            var basketDoc = jQuery.parseXML(xhr.responseJSON.xml);
+>>>>>>> refs/remotes/origin/master
             // alert(xhr.responseJSON.xml);
 
             // update for successfully read (non-empty) basket
