@@ -282,7 +282,7 @@ SpreadCartPlugin.prototype.tryUpdatingQuantity = function() {
 SpreadCartPlugin.prototype.loadBasket = function(nextFunc) {
 
     // allow possibility that basket ID may dynamically change
-    var shopBasketJSON = localStorage.getItem("mmBasket");
+    var shopBasketJSON = localStorage.getItem("shpbskt");
     var plugin = this;
     this.basketID = null;
 
