@@ -281,28 +281,10 @@ SpreadCartPlugin.prototype.tryUpdatingQuantity = function() {
 
 SpreadCartPlugin.prototype.loadBasket = function(nextFunc) {
 
-    // allow possibility that basket ID may dynamically change
-    var shopBasketJSON = localStorage.getItem("shpbskt");
     var plugin = this;
-    this.basketID = null;
-
-    if(shopBasketJSON !== null && shopBasketJSON !== "") {
-        var shopBasket = JSON.parse(shopBasketJSON);
-
-        if(shopBasket !== null && typeof shopBasket.apiBasketId !== "undefined"
-            && shopBasket.apiBasketId !== null)
-        {
-            this.basketID = shopBasket.apiBasketId;
-            this.requestReadBasket(nextFunc);
-        }
-    }
-
-    // empty the basket if we ever lose the SpreadShop basket ID
-    if(this.basketID === null) {
-        this.basket = null;
-        nextFunc(false);
-    }
-};
+    this.basketID = localStorage.getItem("shpbskt");
+    this.requestReadBasket(nextFunc);
+ };
 
 SpreadCartPlugin.prototype.getBasketTotalQuantity = function() {
     if(this.basket === null)
